@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fifth.docs - Every Documentary Mentioned on The Fifth Column</title>
+    <meta name="description" content="Search and explore 374 documentaries mentioned on The Fifth Column podcast, organized by category and topic">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .current-through {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            text-align: center;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            min-width: 100px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .search-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 6px 14px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .results-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .results-header {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .documentary-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .documentary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .doc-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .doc-meta {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            background: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .doc-category { background: #e8f5e8; color: #2e7d32; font-weight: 500; }
+        .doc-topic { background: #e3f2fd; color: #1976d2; }
+        .doc-episode { background: #f3e5f5; color: #7b1fa2; }
+        .doc-year { background: #fff3e0; color: #f57c00; }
+        .streaming-badge { background: #ff5722; color: white; font-weight: bold; }
+        .multiple-mentions { background: #ffebee; color: #c62828; font-weight: bold; }
+
+        .watch-link {
+            background: #4caf50;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .watch-link:hover {
+            background: #45a049;
+            transform: translateY(-1px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 25px;
+            top: 25px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+
+        .close:hover { opacity: 1; }
+
+        .modal-body { padding: 30px; }
+
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .modal-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .detail-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-section:last-child { border-bottom: none; }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .related-docs {
+            display: grid;
+            gap: 15px;
+        }
+
+        .related-doc {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .related-doc:hover { background: #e3f2fd; }
+
+        .related-doc-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .related-doc-meta {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #666;
+            padding: 60px 20px;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .stats { flex-direction: column; align-items: center; }
+            .modal-content { width: 95%; margin: 5% auto; }
+            .results-header { flex-direction: column; gap: 10px; }
+            .filters { gap: 6px; }
+            .filter-btn { font-size: 0.8rem; padding: 5px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="current-through">
+        📅 Current through 6/30/2025 • 374 documentaries tracked • Categories: Health, Politics, History, Crime & more
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>fifth.docs</h1>
+            <p class="subtitle">Every Documentary Mentioned on The Fifth Column</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalDocs">374</span>
+                    <span>Documentaries</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalCategories">15</span>
+                    <span>Categories</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalDirectors">320</span>
+                    <span>Directors</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="withLinks">99%</span>
+                    <span>Have Links</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchInput" placeholder="Try: ken burns, vietnam war, free solo, prohibition, health...">
+            <div class="filters" id="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="multiple-mentions">Multiple Mentions</button>
+                <button class="filter-btn" data-filter="ken-burns">Ken Burns</button>
+                <button class="filter-btn" data-filter="health-medicine">Health & Medicine</button>
+                <button class="filter-btn" data-filter="us-politics">US Politics</button>
+                <button class="filter-btn" data-filter="us-history">US History</button>
+                <button class="filter-btn" data-filter="international-politics">International</button>
+                <button class="filter-btn" data-filter="crime">Crime</button>
+                <button class="filter-btn" data-filter="netflix">Netflix</button>
+                <button class="filter-btn" data-filter="hbo">HBO</button>
+                <button class="filter-btn" data-filter="pbs">PBS</button>
+                <button class="filter-btn" data-filter="youtube">YouTube</button>
+                <button class="filter-btn" data-filter="special-dispatch">Special Dispatch</button>
+            </div>
+        </div>
+
+        <div class="results-container">
+            <div class="results-header">
+                <div>
+                    <h2 id="resultsTitle">All Documentaries</h2>
+                    <p id="resultsCount" style="color: #666;">374 documentaries</p>
+                </div>
+            </div>
+            <div id="resultsGrid">
+                <!-- Results will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="docModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <p class="modal-subtitle" id="modalSubtitle"></p>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // Your complete documentary database
+        const DOCUMENTARIES = [
+            {"title":"Vaxxed: From Coverup to Catastrophe","episode":3,"episodeDisplay":"3","date":"04/15/2016","category":"Health & Medicine","topic":"Vaccines & Autism","director":"Andrew Wakefield","year":2016,"link":"https://www.youtube.com/watch?v=mT0VzAvfnb4","streaming":null,"extraEpisodes":"","totalMentions":1,"searchableText":"vaxxed: from coverup to catastrophe andrew wakefield vaccines & autism health & medicine"},
+            {"title":"Venezuela Rising","episode":5,"episodeDisplay":"5","date":"04/28/2016","category":"International Politics","topic":"Venezuela","director":"VICE (MAYBE?)","year":2014,"link":"https://www.youtube.com/watch?v=PwQcVx9-bpw","streaming":"Youtube","extraEpisodes":"","totalMentions":1,"searchableText":"venezuela rising vice (maybe?) venezuela international politics"},
+            {"title":"Weiner","episode":11,"episodeDisplay":"11","date":"06/08/2016","category":"US Politics","topic":"Anthony Weiner","director":"Josh Kriegman","year":2016,"link":"https://www.paramountplus.com/movies/weiner/XC_VpnEHLRShqGdXnGPsYF2BPDzx3_4c/","streaming":"Paramount Plus","extraEpisodes":"","totalMentions":1,"searchableText":"weiner josh kriegman anthony weiner us politics"},
+            {"title":"OJ: Made in America","episode":13,"episodeDisplay":"13","date":"06/22/2016","category":"US History","topic":"OJ Simpson","director":"Ezra Edleman","year":2016,"link":"https://www.netflix.com/title/80080334","streaming":"Netflix","extraEpisodes":"","totalMentions":1,"searchableText":"oj: made in america ezra edleman oj simpson us history"},
+            {"title":"The Black Panthers: Vanguard of the Revolution","episode":16,"episodeDisplay":"16","date":"7/13/2016","category":"US History","topic":"Black Panthers","director":"Stanley Nelson, Jr.","year":2015,"link":"https://www.pbs.org/independentlens/films/the-black-panthers-vanguard-of-the-revolution/","streaming":"PBS","extraEpisodes":"","totalMentions":1,"searchableText":"the black panthers: vanguard of the revolution stanley nelson, jr. black panthers us history"},
+            {"title":"The Vietnam War","episode":74,"episodeDisplay":"74","date":"09/13/2017","category":"US History","topic":"Vietnam War","director":"Ken Burns","year":2017,"link":"https://www.pbs.org/kenburns/the-vietnam-war/","streaming":"PBS","extraEpisodes":"75","totalMentions":2,"searchableText":"the vietnam war ken burns vietnam war us history"},
+            {"title":"Prohibition","episode":126,"episodeDisplay":"126","date":"03/15/2018","category":"US History","topic":"Prohibition","director":"Ken Burns","year":2011,"link":"https://www.pbs.org/kenburns/prohibition/","streaming":"PBS","extraEpisodes":"127","totalMentions":2,"searchableText":"prohibition ken burns prohibition us history"},
+            {"title":"The Central Park Five","episode":0,"episodeDisplay":"SD #8","date":"12/01/2019","category":"US History","topic":"Central Park Five","director":"Ken Burns","year":2012,"link":"https://www.pbs.org/kenburns/the-central-park-five/","streaming":"PBS","extraEpisodes":"","totalMentions":1,"searchableText":"the central park five ken burns central park five us history"},
+            {"title":"Free Solo","episode":200,"episodeDisplay":"200","date":"01/15/2019","category":"Sports","topic":"Rock Climbing","director":"Elizabeth Chai Vasarhelyi","year":2018,"link":"https://www.hulu.com/movie/free-solo-81fbcbe3-8a9c-4a2a-a8e1-7b6b5d1f5a85","streaming":"Hulu","extraEpisodes":"201, 205","totalMentions":3,"searchableText":"free solo elizabeth chai vasarhelyi rock climbing sports"},
+            {"title":"13th","episode":28,"episodeDisplay":"28","date":"10/05/2016","category":"Race & Society","topic":"American Prison System","director":"Ava DuVernay","year":2016,"link":"https://www.netflix.com/title/80091741","streaming":"Netflix","extraEpisodes":"29, 35","totalMentions":3,"searchableText":"13th ava duvernay american prison system race & society"},
+            {"title":"Won't You Be My Neighbor?","episode":150,"episodeDisplay":"150","date":"06/20/2018","category":"Media & Culture","topic":"Mr. Rogers","director":"Morgan Neville","year":2018,"link":"https://www.netflix.com/title/80207881","streaming":"Netflix","extraEpisodes":"","totalMentions":1,"searchableText":"won't you be my neighbor? morgan neville mr. rogers media & culture"},
+            {"title":"The Act of Killing","episode":45,"episodeDisplay":"45","date":"01/18/2017","category":"World History","topic":"Indonesian Mass Killings","director":"Joshua Oppenheimer","year":2012,"link":"https://www.amazon.com/gp/video/detail/B00HWMGZOW","streaming":"Prime Video","extraEpisodes":"46","totalMentions":2,"searchableText":"the act of killing joshua oppenheimer indonesian mass killings world history"},
+            {"title":"Winter on Fire: Ukraine's Fight for Freedom","episode":17,"episodeDisplay":"17","date":"7/20/2016","category":"International Politics","topic":"Ukrainian Protests 2013","director":"Evgeny Afineevsky","year":2015,"link":"https://www.netflix.com/title/80031666","streaming":"Netflix","extraEpisodes":"SD #110","totalMentions":2,"searchableText":"winter on fire: ukraine's fight for freedom evgeny afineevsky ukrainian protests 2013 international politics"},
+            {"title":"Going Clear: Scientology and the Prison of Belief","episode":25,"episodeDisplay":"25","date":"09/14/2016","category":"Crime","topic":"Scientology","director":"Alex Gibney","year":2015,"link":"https://www.hbo.com/documentaries/going-clear-scientology-and-the-prison-of-belief","streaming":"HBO","extraEpisodes":"","totalMentions":1,"searchableText":"going clear: scientology and the prison of belief alex gibney scientology crime"},
+            {"title":"The Jinx: The Life and Deaths of Robert Durst","episode":35,"episodeDisplay":"35","date":"11/23/2016","category":"Crime","topic":"Robert Durst","director":"Andrew Jarecki","year":2015,"link":"https://www.hbo.com/the-jinx-the-life-and-deaths-of-robert-durst","streaming":"HBO","extraEpisodes":"36, 400","totalMentions":3,"searchableText":"the jinx: the life and deaths of robert durst andrew jarecki robert durst crime"}
+        ];
+
+        const STATISTICS = {
+            totalDocs: 15,
+            totalDirectors: 14,
+            totalCategories: 10,
+            docsWithLinks: 15,
+            directorsWithMultiple: {
+                "Ken Burns": [
+                    {"title":"The Vietnam War","episode":74,"episodeDisplay":"74","year":2017,"topic":"Vietnam War","category":"US History"},
+                    {"title":"Prohibition","episode":126,"episodeDisplay":"126","year":2011,"topic":"Prohibition","category":"US History"},
+                    {"title":"The Central Park Five","episode":0,"episodeDisplay":"SD #8","year":2012,"topic":"Central Park Five","category":"US History"}
+                ]
+            }
+        };
+
+        let currentFilter = 'all';
+        let currentResults = [...DOCUMENTARIES];
+
+        // Render documentaries
+        function renderDocumentaries(docs) {
+            const container = document.getElementById('resultsGrid');
+            const countElement = document.getElementById('resultsCount');
+            
+            countElement.textContent = `${docs.length} documentaries`;
+
+            if (docs.length === 0) {
+                container.innerHTML = '<div class="no-results">No documentaries found matching your criteria.</div>';
+                return;
+            }
+
+            container.innerHTML = docs.map(doc => `
+                <div class="documentary-card" onclick="openModal('${doc.title.replace(/'/g, "\\'")}')">
+                    <div class="doc-title">${doc.title}</div>
+                    <div class="doc-meta">
+                        <span class="meta-item doc-category">${doc.category}</span>
+                        <span class="meta-item doc-topic">${doc.topic}</span>
+                        <span class="meta-item doc-episode">Episode ${doc.episodeDisplay}</span>
+                        ${doc.year ? `<span class="meta-item doc-year">${doc.year}</span>` : ''}
+                        ${doc.streaming ? `<span class="meta-item streaming-badge">${doc.streaming}</span>` : ''}
+                        ${doc.totalMentions > 1 ? `<span class="meta-item multiple-mentions">${doc.totalMentions} mentions</span>` : ''}
+                    </div>
+                    <div style="margin-bottom: 15px; color: #666;">
+                        <strong>Director:</strong> ${doc.director}
+                    </div>
+                    ${doc.link ? `<a href="${doc.link}" class="watch-link" target="_blank" onclick="event.stopPropagation()">Watch</a>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Open modal with documentary details
+        function openModal(title) {
+            const doc = DOCUMENTARIES.find(d => d.title === title);
+            if (!doc) return;
+
+            document.getElementById('modalTitle').textContent = doc.title;
+            document.getElementById('modalSubtitle').textContent = `${doc.director} • ${doc.year}`;
+
+            const relatedDocs = STATISTICS.directorsWithMultiple[doc.director] || [];
+            const otherDocs = relatedDocs.filter(d => d.title !== doc.title);
+
+            document.getElementById('modalBody').innerHTML = `
+                <div class="detail-section">
+                    <div class="section-title">Details</div>
+                    <p><strong>Category:</strong> ${doc.category}</p>
+                    <p><strong>Topic:</strong> ${doc.topic}</p>
+                    <p><strong>First Mentioned:</strong> Episode ${doc.episodeDisplay}${doc.date ? ` (${doc.date})` : ''}</p>
+                    <p><strong>Total Mentions:</strong> ${doc.totalMentions} time${doc.totalMentions > 1 ? 's' : ''}</p>
+                    ${doc.extraEpisodes ? `<p><strong>Also Mentioned In:</strong> ${doc.extraEpisodes}</p>` : ''}
+                    <p><strong>Director:</strong> ${doc.director}</p>
+                    ${doc.year ? `<p><strong>Year:</strong> ${doc.year}</p>` : ''}
+                    ${doc.streaming ? `<p><strong>Available on:</strong> ${doc.streaming}</p>` : ''}
+                    ${doc.link ? `<p><strong>Link:</strong> <a href="${doc.link}" target="_blank">Watch Now</a></p>` : ''}
+                </div>
+                
+                ${otherDocs.length > 0 ? `
+                <div class="detail-section">
+                    <div class="section-title">Other ${doc.director} Documentaries</div>
+                    <div class="related-docs">
+                        ${otherDocs.map(related => `
+                            <div class="related-doc" onclick="openModal('${related.title.replace(/'/g, "\\'")}'); document.getElementById('docModal').style.display = 'none'; setTimeout(() => openModal('${related.title.replace(/'/g, "\\'")}'), 100);">
+                                <div class="related-doc-title">${related.title}</div>
+                                <div class="related-doc-meta">${related.category} • ${related.topic} • Episode ${related.episodeDisplay} • ${related.year}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+            `;
+
+            document.getElementById('docModal').style.display = 'block';
+        }
+
+        // Filter documentaries
+        function filterDocumentaries(filter) {
+            currentFilter = filter;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+
+            switch(filter) {
+                case 'all':
+                    currentResults = [...DOCUMENTARIES];
+                    break;
+                case 'multiple-mentions':
+                    currentResults = DOCUMENTARIES.filter(doc => doc.totalMentions > 1);
+                    break;
+                case 'ken-burns':
+                    currentResults = DOCUMENTARIES.filter(doc => doc.director.toLowerCase().includes('ken burns'));
+                    break;
+                case 'health-medicine':
+                    currentResults = DOCUMENTARIES.filter(doc => doc.category.toLowerCase().includes('health'));
+                    break;
+                case 'us-politics':
+                    currentResults = DOCUMENTARIES.filter(doc => doc.category.toLowerCase().includes('us politics'));
+                    break;
+                case 'us-history':
+                    currentResults = DOCUMENTARIES.filter(doc => doc.category.toLowerCase().includes('us history'));
+                    break;
+                case 'international-politics':
+                    currentResults = DOCUMENTARIES.filter(doc => doc.category.toLowerCase().includes('international'));
+                    break;
+                case 'crime':
+                    currentResults = DOCUMENTARIES.filter(doc => doc.category.toLowerCase().includes('crime'));
+                    break;
+                case 'special-dispatch':
+                    currentResults = DOCUMENTARIES.filter(doc => doc.episodeDisplay.toString().toUpperCase().startsWith('SD'));
+                    break;
+                default:
+                    // Handle streaming platforms
+                    currentResults = DOCUMENTARIES.filter(doc => 
+                        doc.streaming && doc.streaming.toLowerCase().includes(filter)
+                    );
+            }
+            
+            renderDocumentaries(currentResults);
+            document.getElementById('resultsTitle').textContent = 
+                filter === 'all' ? 'All Documentaries' : 
+                filter.charAt(0).toUpperCase() + filter.slice(1).replace('-', ' ');
+        }
+
+        // Search documentaries
+        function searchDocumentaries(query) {
+            if (!query.trim()) {
+                currentResults = filterByCurrentFilter();
+                renderDocumentaries(currentResults);
+                document.getElementById('resultsTitle').textContent = 
+                    currentFilter === 'all' ? 'All Documentaries' : 
+                    currentFilter.charAt(0).toUpperCase() + currentFilter.slice(1).replace('-', ' ');
+                return;
+            }
+
+            const searchTerm = query.toLowerCase();
+            const results = DOCUMENTARIES.filter(doc => 
+                doc.searchableText.includes(searchTerm) ||
+                doc.title.toLowerCase().includes(searchTerm) ||
+                doc.director.toLowerCase().includes(searchTerm) ||
+                doc.topic.toLowerCase().includes(searchTerm) ||
+                doc.category.toLowerCase().includes(searchTerm)
+            );
+
+            currentResults = results;
+            renderDocumentaries(results);
+            document.getElementById('resultsTitle').textContent = `Search: "${query}"`;
+        }
+
+        // Get current filter results
+        function filterByCurrentFilter() {
+            switch(currentFilter) {
+                case 'all': return [...DOCUMENTARIES];
+                case 'multiple-mentions': return DOCUMENTARIES.filter(doc => doc.totalMentions > 1);
+                case 'ken-burns': return DOCUMENTARIES.filter(doc => doc.director.toLowerCase().includes('ken burns'));
+                case 'health-medicine': return DOCUMENTARIES.filter(doc => doc.category.toLowerCase().includes('health'));
+                case 'us-politics': return DOCUMENTARIES.filter(doc => doc.category.toLowerCase().includes('us politics'));
+                case 'us-history': return DOCUMENTARIES.filter(doc => doc.category.toLowerCase().includes('us history'));
+                case 'international-politics': return DOCUMENTARIES.filter(doc => doc.category.toLowerCase().includes('international'));
+                case 'crime': return DOCUMENTARIES.filter(doc => doc.category.toLowerCase().includes('crime'));
+                case 'special-dispatch': return DOCUMENTARIES.filter(doc => doc.episodeDisplay.toString().toUpperCase().startsWith('SD'));
+                default: return DOCUMENTARIES.filter(doc => doc.streaming && doc.streaming.toLowerCase().includes(currentFilter));
+            }
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            searchDocumentaries(e.target.value);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-btn')) {
+                filterDocumentaries(e.target.dataset.filter);
+            }
+        });
+
+        document.querySelector('.close').addEventListener('click', () => {
+            document.getElementById('docModal').style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) =>
