@@ -8853,12 +8853,19 @@ function updateStats() {
         modalBody.innerHTML = `
 ${doc.trailerUrl ? `
 <div class="detail-section">
-    <div class="section-title">Trailer</div>
-    <div style="text-align: center;">
-        <a href="${doc.trailerUrl.replace('embed/', 'watch?v=')}" target="_blank" class="doc-link">
-            Watch Trailer on YouTube
-        </a>
-    </div>
+ <div class="section-title">Trailer</div>
+ <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; margin-bottom: 15px;">
+ <iframe
+ src="${doc.trailerUrl}"
+ style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 6px;"
+ allowfullscreen>
+ </iframe>
+ </div>
+ <div style="text-align: center; margin-top: 10px;">
+ <a href="${doc.trailerUrl.replace('embed/', 'watch?v=')}" target="_blank" class="doc-link">
+ Watch Trailer on YouTube
+ </a>
+ </div>
 </div>
 ` : ''}
     
@@ -8921,18 +8928,6 @@ ${doc.trailerUrl ? `
   }
   return '';
 })()}
-    
-    ${doc.trailerUrl ? `
-    <div class="detail-section">
-        <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; margin-bottom: 15px;">
-            <iframe 
-                src="${doc.trailerUrl}" 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 6px;"
-                allowfullscreen>
-            </iframe>
-        </div>
-    </div>
-    ` : ''}
 `;
         
         console.log('About to show modal');
