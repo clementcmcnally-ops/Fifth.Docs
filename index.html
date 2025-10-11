@@ -629,6 +629,15 @@
             font-size: 0.8rem;
             font-weight: bold;
         }
+        .clickable-doc {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.clickable-doc:hover {
+    color: #4CAF50;
+    text-decoration: underline;
+}
 </style>
 </head>
 <body>
@@ -9455,38 +9464,36 @@ function generateDirectorsPage() {
         }
         
         function renderDirectors(directors, sortBy) {
-            const sorted = [...directors].sort((a, b) => {
-                if (sortBy === 'films') {
-                    return b.films.length - a.films.length;
-                } else {
-                    return b.totalMentions - a.totalMentions;
-                }
-            });
-            
-            document.getElementById('directorsTitle').textContent = 
-                sortBy === 'films' ? 'Directors by Number of Films' : 'Directors by Total Mentions';
-            document.getElementById('directorsCount').textContent = `${sorted.length} directors`;
-            
-            const grid = document.getElementById('directorsGrid');
-            grid.innerHTML = sorted.map(director => `
-                <div class="director-card">
-                    <div class="director-name">${director.name}</div>
-                    <div class="director-stats">
-                        <span class="director-stat">${director.films.length} film${director.films.length !== 1 ? 's' : ''}</span>
-                        <span class="director-stat">${director.totalMentions} total mention${director.totalMentions !== 1 ? 's' : ''}</span>
-                    </div>
-                    <div class="director-films">
-                        ${director.films.slice(0, 5).map(film => `
-                            <div class="director-film">
-                                <span class="film-title">${film.title}</span> (${film.year})
-                                ${film.totalMentions > 1 ? ` - ${film.totalMentions} mentions` : ''}
-                            </div>
-                        `).join('')}
-                        ${director.films.length > 5 ? `<div class="director-film" style="color: #999; font-style: italic;">...and ${director.films.length - 5} more</div>` : ''}
-                    </div>
-                </div>
-            `).join('');
-        }
+const sorted = [...directors].sort((a, b) => {
+if (sortBy === 'films') {
+return b.films.length - a.films.length;
+ } else {
+return b.totalMentions - a.totalMentions;
+ }
+ });
+document.getElementById('directorsTitle').textContent =
+sortBy === 'films' ? 'Directors by Number of Films' : 'Directors by Total Mentions';
+document.getElementById('directorsCount').textContent = `${sorted.length} directors`;
+const grid = document.getElementById('directorsGrid');
+grid.innerHTML = sorted.map(director => `
+ <div class="director-card">
+ <div class="director-name">${director.name}</div>
+ <div class="director-stats">
+ <span class="director-stat">${director.films.length} film${director.films.length !== 1 ? 's' : ''}</span>
+ <span class="director-stat">${director.totalMentions} total mention${director.totalMentions !== 1 ? 's' : ''}</span>
+ </div>
+ <div class="director-films">
+${director.films.slice(0, 5).map(film => `
+ <div class="director-film">
+ <span class="film-title clickable-doc" onclick="openModal('${film.title.replace(/'/g, "\\'")}')">${film.title}</span> (${film.year})
+${film.totalMentions > 1 ? ` - ${film.totalMentions} mentions` : ''}
+ </div>
+ `).join('')}
+${director.films.length > 5 ? `<div class="director-film" style="color: #999; font-style: italic;">...and ${director.films.length - 5} more</div>` : ''}
+ </div>
+ </div>
+ `).join('');
+ }
         
         function generateCategoriesPage() {
             const categoryData = {};
