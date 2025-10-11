@@ -9176,21 +9176,15 @@ function renderTimelineChart(containerId, yearlyData) {
  const container = document.getElementById(containerId);
 const allTotals = Object.values(yearlyData).flat().map(d => d.total).filter(val => val > 0);
 const maxValue = Math.max(...allTotals);
+
 container.innerHTML = Object.keys(yearlyData).sort().map(year => {
 const yearData = yearlyData[year];
-const yearTotal = yearData.reduce((sum, month) => sum + month.total, 0);
-const yearUnique = yearData.reduce((sum, month) => sum + month.unique, 0);
+const yearUniqueTotal = yearData.reduce((sum, month) => sum + month.unique, 0);
 
 return `
  <div style="margin-bottom: 30px;">
- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
- <h3 style="color: #ffffff; font-size: 1.2rem; margin: 0;">${year}</h3>
- <div style="display: flex; gap: 15px; font-size: 0.9rem;">
- <span style="color: #999; padding: 5px 10px; background: #1a1a1a; border-radius: 4px;">${yearTotal} total mentions</span>
- <span style="color: #999; padding: 5px 10px; background: #1a1a1a; border-radius: 4px;">${yearUnique} unique documentaries</span>
- </div>
- </div>
- <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+ <h3 style="color: #ffffff; margin-bottom: 15px; font-size: 1.2rem;">${year}</h3>
+ <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: end;">
 ${yearData.map(monthData => {
 const height = monthData.total > 0 && maxValue > 0 ? (monthData.total / maxValue) * 100 : 0;
 const barStyle = monthData.total > 0
@@ -9205,6 +9199,14 @@ return `
  </div>
  `;
  }).join('')}
+ 
+ <div style="display: flex; flex-direction: column; align-items: center; min-width: 60px; margin-left: 20px; padding-left: 20px; border-left: 2px solid #444;">
+ <div style="height: 80px; display: flex; align-items: end;">
+ <div style="width: 30px; height: 100%; background: linear-gradient(180deg, #e2a44a, #ee9368); border-radius: 2px;" title="Year Total: ${yearUniqueTotal} unique documentaries"></div>
+ </div>
+ <div style="font-size: 0.7rem; color: #cccccc; margin-top: 5px; text-align: center; font-weight: bold;">Year Total</div>
+ <div style="font-size: 0.8rem; color: #ffffff; margin-top: 2px; font-weight: bold;">${yearUniqueTotal}</div>
+ </div>
  </div>
  </div>
  `;
