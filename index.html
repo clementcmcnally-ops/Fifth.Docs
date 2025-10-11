@@ -8907,26 +8907,39 @@ ${doc.trailerUrl ? `
     </div>
     
   ${(() => {
-  let readingButtons = '';
-  for (let i = 1; i <= 4; i++) {
-    const readingLink = doc[`reading${i}`];
-    if (readingLink && readingLink !== null && readingLink !== '') {
-      readingButtons += `<a href="${readingLink}" target="_blank" class="doc-link reading-link">Reading ${i}</a>`;
-    }
-  }
-  
-  // Only return the section if there are readings
-  if (readingButtons) {
-    return `
-      <div class="detail-section">
-        <div class="section-title">Additional Reading</div>
-        <div class="doc-links">
-          ${readingButtons}
-        </div>
-      </div>
-    `;
-  }
-  return '';
+let readingButtons = '';
+for (let i = 1; i <= 4; i++) {
+const readingLink = doc[`reading${i}`];
+if (readingLink && readingLink !== null && readingLink !== '') {
+readingButtons += `<a href="${readingLink}" target="_blank" class="doc-link reading-link">Reading ${i}</a>`;
+ }
+ }
+// Only return the section if there are readings
+if (readingButtons) {
+return `
+ <div class="detail-section">
+ <div class="section-title">Additional Reading</div>
+ <div class="doc-links">
+${readingButtons}
+ </div>
+ <div class="crowdsource-section" style="margin-top: 15px; padding: 15px; background: #1a1a1a; border-radius: 6px;">
+ <p><strong>Have a relevant article or resource?</strong></p>
+ <p style="font-size: 0.9rem; color: #cccccc; margin-bottom: 10px;">Help expand our reading materials by suggesting articles, interviews, or related content about this documentary.</p>
+ <a href="https://docs.google.com/forms/d/e/1FAIpQLScRUbw-FjjhkKHF9M8LMFUW6Og_h0sTziQ6lZkSc8BYt4yWOg/viewform?usp=header" target="_blank" class="doc-link">Suggest a Reading</a>
+ </div>
+ </div>
+ `;
+ }
+return `
+ <div class="detail-section">
+ <div class="section-title">Additional Reading</div>
+ <div class="crowdsource-section" style="padding: 15px; background: #1a1a1a; border-radius: 6px;">
+ <p><strong>Know of relevant articles or resources?</strong></p>
+ <p style="font-size: 0.9rem; color: #cccccc; margin-bottom: 10px;">Be the first to suggest reading materials for this documentary!</p>
+ <a href="https://docs.google.com/forms/d/e/1FAIpQLScRUbw-FjjhkKHF9M8LMFUW6Og_h0sTziQ6lZkSc8BYt4yWOg/viewform?usp=header" target="_blank" class="doc-link">Suggest a Reading</a>
+ </div>
+ </div>
+`;
 })()}
 `;
         
