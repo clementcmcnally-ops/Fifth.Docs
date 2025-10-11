@@ -645,6 +645,25 @@
     color: #4CAF50;
     text-decoration: underline;
 }
+.year-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.year-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+}
+
+.year-stat {
+    color: #999;
+    padding: 5px 10px;
+    background: #1a1a1a;
+    border-radius: 4px;
+}
 </style>
 </head>
 <body>
@@ -9154,36 +9173,42 @@ function generateTimelineChart() {
 }
 
 function renderTimelineChart(containerId, yearlyData) {
-    const container = document.getElementById(containerId);
-    const allTotals = Object.values(yearlyData).flat().map(d => d.total).filter(val => val > 0);
-    const maxValue = Math.max(...allTotals);
-    
-    container.innerHTML = Object.keys(yearlyData).sort().map(year => {
-        const yearData = yearlyData[year];
-        
-        return `
-            <div style="margin-bottom: 30px;">
-                <h3 style="color: #ffffff; margin-bottom: 15px; font-size: 1.2rem;">${year}</h3>
-                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                    ${yearData.map(monthData => {
-                        const height = monthData.total > 0 && maxValue > 0 ? (monthData.total / maxValue) * 100 : 0;
-                        const barStyle = monthData.total > 0 
-                            ? `width: 20px; height: ${height}%; background: linear-gradient(180deg, #4a90e2, #7b68ee); border-radius: 2px;`
-                            : `width: 20px; height: 2px; background: #444444; border-radius: 2px;`;
-                        
-                        return `
-                            <div style="display: flex; flex-direction: column; align-items: center; min-width: 50px;">
-                                <div style="height: 80px; display: flex; align-items: end;">
-                                    <div style="${barStyle}" title="${monthData.month} ${year}: ${monthData.total} total mentions, ${monthData.unique} unique docs"></div>
-                                </div>
-                                <div style="font-size: 0.7rem; color: #cccccc; margin-top: 5px; text-align: center;">${monthData.month}</div>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            </div>
-        `;
-    }).join('');
+ const container = document.getElementById(containerId);
+const allTotals = Object.values(yearlyData).flat().map(d => d.total).filter(val => val > 0);
+const maxValue = Math.max(...allTotals);
+container.innerHTML = Object.keys(yearlyData).sort().map(year => {
+const yearData = yearlyData[year];
+const yearTotal = yearData.reduce((sum, month) => sum + month.total, 0);
+const yearUnique = yearData.reduce((sum, month) => sum + month.unique, 0);
+
+return `
+ <div style="margin-bottom: 30px;">
+ <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+ <h3 style="color: #ffffff; font-size: 1.2rem; margin: 0;">${year}</h3>
+ <div style="display: flex; gap: 15px; font-size: 0.9rem;">
+ <span style="color: #999; padding: 5px 10px; background: #1a1a1a; border-radius: 4px;">${yearTotal} total mentions</span>
+ <span style="color: #999; padding: 5px 10px; background: #1a1a1a; border-radius: 4px;">${yearUnique} unique documentaries</span>
+ </div>
+ </div>
+ <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+${yearData.map(monthData => {
+const height = monthData.total > 0 && maxValue > 0 ? (monthData.total / maxValue) * 100 : 0;
+const barStyle = monthData.total > 0
+ ? `width: 20px; height: ${height}%; background: linear-gradient(180deg, #4a90e2, #7b68ee); border-radius: 2px;`
+ : `width: 20px; height: 2px; background: #444444; border-radius: 2px;`;
+return `
+ <div style="display: flex; flex-direction: column; align-items: center; min-width: 50px;">
+ <div style="height: 80px; display: flex; align-items: end;">
+ <div style="${barStyle}" title="${monthData.month} ${year}: ${monthData.total} total mentions, ${monthData.unique} unique docs"></div>
+ </div>
+ <div style="font-size: 0.7rem; color: #cccccc; margin-top: 5px; text-align: center;">${monthData.month}</div>
+ </div>
+ `;
+ }).join('')}
+ </div>
+ </div>
+ `;
+ }).join('');
 }
 
 function generateDirectorsChart() {
