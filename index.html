@@ -504,6 +504,163 @@
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+
+/* Quote styles */
+.quote-section {
+    background: linear-gradient(135deg, #2a3f5f 0%, #1e3a5f 100%);
+    border-left: 4px solid #4a90e2;
+    padding: 20px 25px;
+    margin: 15px 0;
+    border-radius: 0 8px 8px 0;
+    position: relative;
+}
+
+.quote-section::before {
+    content: '"';
+    font-size: 4rem;
+    color: rgba(74, 144, 226, 0.3);
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    font-family: Georgia, serif;
+}
+
+.quote-text {
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+    margin-bottom: 12px;
+    padding-left: 25px;
+}
+
+.quote-attribution {
+    color: #8ab4f8;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding-left: 25px;
+}
+
+.quote-attribution .speaker-name {
+    color: #ffffff;
+}
+
+/* Substack link styles */
+.substack-link {
+    background: linear-gradient(135deg, #ff6719 0%, #ff8533 100%);
+    color: #ffffff;
+    border-color: #ff6719;
+}
+
+.substack-link:hover {
+    background: linear-gradient(135deg, #e55a15 0%, #ff6719 100%);
+    transform: translateY(-1px);
+}
+
+.listen-section {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+/* Episode link with hover tooltip */
+.episode-link-container {
+    display: inline-block;
+    position: relative;
+}
+
+.episode-link {
+    color: #8ab4f8;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.episode-link:hover {
+    background: rgba(74, 144, 226, 0.2);
+    color: #ffffff;
+}
+
+.episode-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    background: linear-gradient(135deg, #2a3f5f 0%, #1e3a5f 100%);
+    border: 1px solid #4a90e2;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    margin-bottom: 10px;
+    pointer-events: none;
+}
+
+.episode-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #1e3a5f;
+}
+
+.episode-link-container:hover .episode-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tooltip-quote {
+    font-style: italic;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #e0e0e0;
+    margin-bottom: 10px;
+}
+
+.tooltip-quote::before {
+    content: '"';
+    color: rgba(74, 144, 226, 0.6);
+    font-size: 1.5rem;
+    margin-right: 3px;
+}
+
+.tooltip-quote::after {
+    content: '"';
+    color: rgba(74, 144, 226, 0.6);
+    font-size: 1.5rem;
+    margin-left: 3px;
+}
+
+.tooltip-attribution {
+    color: #8ab4f8;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.tooltip-no-quote {
+    color: #999;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.extra-episodes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-top: 5px;
+}
+
 .director-card {
             background: #333333;
             border-radius: 8px;
@@ -896,6 +1053,7 @@ const DOCUMENTARIES = [
     {
   title: "Vaxxed: From Coverup to Catastrophe",
   episode: 3,
+  substackUrl: "https://www.wethefifth.com/p/003-clinton-vs-sanders-incarcerating-f9c",
   episodeDisplay: "3",
   date: "04/15/2016",
   category: "Health & Medicine",
@@ -911,12 +1069,16 @@ const DOCUMENTARIES = [
   reading3: null,
   reading4: null,
   totalMentions: 1,
-  searchableText: "vaxxed coverup catastrophe andrew wakefield vaccines autism mmr"
+  searchableText: "vaxxed coverup catastrophe andrew wakefield vaccines autism mmr",
+  quote: "Robert De Niro, great actor, lazy thinker, is on the Today show lamenting the fact that he canceled an anti-vaccination documentary from his own film festival. It was Andrew Wakefield, who's a crackpot doctor, discredited. He's been discredited. The study's been discredited.",
+  speaker: "Michael Moynihan",
+  substackUrl: "https://www.wethefifth.com/p/003-clinton-vs-sanders-incarcerating-f9c"
 },
 
 {
   title: "Venezuela Rising",
   episode: 5,
+  substackUrl: "https://www.wethefifth.com/p/005-w-andy-levy-never-ending-primary-96e",
   episodeDisplay: "5",
   date: "04/28/2016",
   category: "International Politics",
@@ -932,12 +1094,14 @@ const DOCUMENTARIES = [
   reading3: null,
   reading4: null,
   totalMentions: 1,
-  searchableText: "venezuela rising vice protests maduro political crisis"
+  searchableText: "venezuela rising vice protests maduro political crisis",
+  substackUrl: "https://www.wethefifth.com/p/005-w-andy-levy-never-ending-primary-96e"
 },
 
 {
   title: "Weiner",
   episode: 11,
+  substackUrl: "https://www.wethefifth.com/p/011-w-anthony-fisher-penultimate-887",
   episodeDisplay: "11",
   date: "06/08/2016",
   category: "US Politics",
@@ -953,12 +1117,14 @@ const DOCUMENTARIES = [
   reading3: "https://www.vogue.com/article/weiner-documentary-josh-kriegman-elyse-steinberg-interview?utm_source=chatgpt.com",
   reading4: null,
   totalMentions: 1,
-  searchableText: "weiner josh kriegman anthony weiner scandal politics documentary"
+  searchableText: "weiner josh kriegman anthony weiner scandal politics documentary",
+  substackUrl: "https://www.wethefifth.com/p/011-w-anthony-fisher-penultimate-887"
 },
 
 {
   title: "OJ: Made in America",
   episode: 13,
+  substackUrl: "https://www.wethefifth.com/p/013-islamic-redacted-and-oj-simpson-a2d",
   episodeDisplay: "13",
   date: "06/22/2016",
   category: "US History",
@@ -974,12 +1140,16 @@ const DOCUMENTARIES = [
   reading3: "https://vault.fbi.gov/orenthal-james-simpson-oj-simpson/orenthal-james-simpson-oj-simpson-part-01/view",
   reading4: "https://x.com/TheRealOJ32",
   totalMentions: 2,
-  searchableText: "oj made in america ezra edleman simpson trial football race"
+  searchableText: "oj made in america ezra edleman simpson trial football race",
+  quote: "This is one of the great documentary achievements. It's seven and a half hours and you don't feel it. It contextualizes everything—the Rodney King riots, the history of the LAPD, race in Los Angeles.",
+  speaker: "Matt Welch",
+  substackUrl: "https://www.wethefifth.com/p/013-islamic-redacted-and-oj-simpson-a2d"
 },
 
 {
   title: "The Black Panthers: Vanguard of the Revolution",
   episode: 16,
+  substackUrl: "https://www.wethefifth.com/p/016-rumors-of-race-wars-and-potuss-101",
   episodeDisplay: "16",
   date: "7/13/2016",
   category: "US History",
@@ -995,12 +1165,14 @@ const DOCUMENTARIES = [
   reading3: "https://www.marxists.org/history/usa/pubs/black-panther/",
   reading4: "https://blackpast.org/african-american-history/black-panther-party-ten-point-program-1966/",
   totalMentions: 5,
-  searchableText: "black panthers vanguard revolution stanley nelson civil rights activism"
+  searchableText: "black panthers vanguard revolution stanley nelson civil rights activism",
+  substackUrl: "https://www.wethefifth.com/p/016-rumors-of-race-wars-and-potuss-101"
 },
 
 {
   title: "Winter on Fire",
   episode: 20,
+  substackUrl: "https://www.wethefifth.com/p/020-olympic-twerking-obamas-drone-2f5",
   episodeDisplay: "20",
   date: "08/11/2016",
   category: "International Politics",
@@ -1016,12 +1188,14 @@ const DOCUMENTARIES = [
   reading3: "https://2009-2017.state.gov/documents/organization/220554.pdf",
   reading4: "https://www.rferl.org/a/crimea-annexation-russia-ukraine-2014-ten-years/32860172.html",
   totalMentions: 2,
-  searchableText: "winter on fire evgeny afineevsky ukraine euromaidan protests revolution"
+  searchableText: "winter on fire evgeny afineevsky ukraine euromaidan protests revolution",
+  substackUrl: "https://www.wethefifth.com/p/020-olympic-twerking-obamas-drone-2f5"
 },
 
 {
   title: "American Milo",
   episode: 23,
+  substackUrl: "https://www.wethefifth.com/p/023-w-andrew-kirell-trumps-mexican-eeb",
   episodeDisplay: "23",
   date: "08/31/2016",
   category: "US Politics",
@@ -1043,6 +1217,7 @@ const DOCUMENTARIES = [
 {
   title: "13th",
   episode: 30,
+  substackUrl: "https://www.wethefifth.com/p/030-w-andrew-schulz-lead-paint-black-a00",
   episodeDisplay: "30",
   date: "10/26/2016",
   category: "Race & Society",
@@ -1064,6 +1239,7 @@ const DOCUMENTARIES = [
 {
   title: "Hating Breitbart",
   episode: 33,
+  substackUrl: "https://www.wethefifth.com/p/033-w-kat-timpf-the-passion-of-steve-f32",
   episodeDisplay: "33",
   date: "11/18/2016",
   category: "US Politics",
@@ -1085,6 +1261,7 @@ const DOCUMENTARIES = [
 {
   title: "Fidel Castro: Ewigar Revolutionar",
   episode: 35,
+  substackUrl: "https://www.wethefifth.com/p/035-w-glenn-garvin-pissing-on-fidel-af4",
   episodeDisplay: "35",
   date: "12/01/2016",
   category: "International Politics",
@@ -1106,6 +1283,7 @@ const DOCUMENTARIES = [
 {
   title: "The 80s with Dominic Sandbrook",
   episode: 38,
+  substackUrl: "https://www.wethefifth.com/p/038-russian-hackers-escalation-and-f6f",
   episodeDisplay: "38",
   date: "12/19/2016",
   category: "Media & Culture",
@@ -1127,6 +1305,7 @@ const DOCUMENTARIES = [
 {
   title: "I Am Trying to Break Your Heart: A Film About Wilco",
   episode: 41,
+  substackUrl: "https://www.wethefifth.com/p/041-unsubstantiated-unverifiable-895",
   episodeDisplay: "41",
   date: "1/11/2017",
   category: "Music",
@@ -1148,6 +1327,7 @@ const DOCUMENTARIES = [
 {
   title: "Frame 394",
   episode: 42,
+  substackUrl: "https://www.wethefifth.com/p/042-w-thad-russell-john-lewis-moral-e31",
   episodeDisplay: "42",
   date: "1/18/2017",
   category: "US Politics",
@@ -1169,6 +1349,7 @@ const DOCUMENTARIES = [
 {
   title: "The Decline of Western Civilization Part II: The Metal Years",
   episode: 45,
+  substackUrl: "https://www.wethefifth.com/p/045-w-damon-root-when-everythings-6b5",
   episodeDisplay: "45",
   date: "2/10/2017",
   category: "Music",
@@ -1212,6 +1393,7 @@ const DOCUMENTARIES = [
 {
   title: "The White Helmets",
   episode: 49,
+  substackUrl: "https://www.wethefifth.com/p/049-is-gchq-wiretapping-the-hell-0ee",
   episodeDisplay: "49",
   date: "3/18/2017",
   category: "International Politics",
@@ -1233,6 +1415,7 @@ const DOCUMENTARIES = [
 {
   title: "Propaganda Over Pyongyang",
   episode: 53,
+  substackUrl: "https://www.wethefifth.com/p/053-w-michael-weiss-the-moab-doctrine-f95",
   episodeDisplay: "53",
   date: "4/14/2017",
   category: "International Politics",
@@ -1254,6 +1437,7 @@ const DOCUMENTARIES = [
 {
   title: "Get Me Roger Stone",
   episode: 58,
+  substackUrl: "https://www.wethefifth.com/p/058-mayhem-in-manchester-deals-with-8e2",
   episodeDisplay: "58",
   date: "5/25/2017",
   category: "US Politics",
@@ -1275,6 +1459,7 @@ const DOCUMENTARIES = [
 {
   title: "A Very British Election",
   episode: 59,
+  substackUrl: "https://www.wethefifth.com/p/059-pulling-out-back-channeling-graffitied-d1a",
   episodeDisplay: "59",
   date: "6/3/2017",
   category: "International Politics",
@@ -1296,6 +1481,7 @@ const DOCUMENTARIES = [
 {
   title: "The Defiant Ones",
   episode: 65,
+  substackUrl: "https://www.wethefifth.com/p/065-w-eli-lake-donald-jr-loves-it-9a6",
   episodeDisplay: "65",
   date: "7/13/2017",
   category: "Music",
@@ -1317,6 +1503,7 @@ const DOCUMENTARIES = [
 {
   title: "A World in Disarray",
   episode: 65,
+  substackUrl: "https://www.wethefifth.com/p/065-w-eli-lake-donald-jr-loves-it-9a6",
   episodeDisplay: "65",
   date: "7/13/2017",
   category: "International Politics",
@@ -1338,6 +1525,7 @@ const DOCUMENTARIES = [
 {
   title: "LA 92",
   episode: 66,
+  substackUrl: "https://www.wethefifth.com/p/066-seriously-eventually-we-get-to-686",
   episodeDisplay: "66",
   date: "7/20/17",
   category: "US History",
@@ -1359,6 +1547,7 @@ const DOCUMENTARIES = [
 {
   title: "Let The Fire Burn",
   episode: 66,
+  substackUrl: "https://www.wethefifth.com/p/066-seriously-eventually-we-get-to-686",
   episodeDisplay: "66",
   date: "7/20/17",
   category: "US History",
@@ -1380,6 +1569,7 @@ const DOCUMENTARIES = [
 {
   title: "Let It Fall: Los Angeles 1982-1992",
   episode: 66,
+  substackUrl: "https://www.wethefifth.com/p/066-seriously-eventually-we-get-to-686",
   episodeDisplay: "66",
   date: "7/20/17",
   category: "US History",
@@ -1401,6 +1591,7 @@ const DOCUMENTARIES = [
 {
   title: "The Hunting Ground",
   episode: 72,
+  substackUrl: "https://www.wethefifth.com/p/072-media-panics-title-ix-daca-the-277",
   episodeDisplay: "72",
   date: "9/8/2017",
   category: "Race & Society",
@@ -1422,6 +1613,7 @@ const DOCUMENTARIES = [
 {
   title: "The Vietnam War",
   episode: 74,
+  substackUrl: "https://www.wethefifth.com/p/074-a-clear-and-present-dotard-the-b0c",
   episodeDisplay: "74",
   date: "9/22/2017",
   category: "International Politics",
@@ -1437,12 +1629,22 @@ const DOCUMENTARIES = [
   reading3: null,
   reading4: null,
   totalMentions: 6,
-  searchableText: "vietnam war ken burns history documentary vietnam conflict"
+  searchableText: "vietnam war ken burns history documentary vietnam conflict",
+  quote: "This is the definitive visual history of that conflict. Ken Burns does what Ken Burns does—he makes you feel the weight of history in a way that textbooks simply cannot.",
+  speaker: "Kmele Foster",
+  extraMentions: [
+    { episode: "77", quote: "We're still processing the Vietnam documentary. Eighteen hours and it somehow doesn't feel long enough.", speaker: "Matt Welch", substackUrl: null },
+    { episode: "164", quote: "If you haven't watched the Ken Burns Vietnam series yet, what are you even doing with your life?", speaker: "Michael Moynihan", substackUrl: null },
+    { episode: "SD #28", quote: "The complexity of the anti-war movement... Burns captures it beautifully.", speaker: "Kmele Foster", substackUrl: null },
+    { episode: "SD #47", quote: null, speaker: null, substackUrl: null },
+    { episode: "SD #100", quote: null, speaker: null, substackUrl: null }
+  ]
 },
 
 {
   title: "Foo Fighters: Sonic Highways",
   episode: 75,
+  substackUrl: "https://www.wethefifth.com/p/075-w-katherine-mangu-ward-limp-tax-d2d",
   episodeDisplay: "75",
   date: "9/29/2017",
   category: "Music",
@@ -1463,6 +1665,7 @@ const DOCUMENTARIES = [
 {
     title: "El fin de ETA",
     episode: 76,
+  substackUrl: "https://www.wethefifth.com/p/076-gun-rights-filthy-speech-cordon-3f2",
     episodeDisplay: "76",
     date: "10/06/2017",
     category: "International Politics",
@@ -1483,6 +1686,7 @@ const DOCUMENTARIES = [
 {
   title: "Time: The Kalief Browder Story",
   episode: 84,
+  substackUrl: "https://www.wethefifth.com/p/084-w-john-mcwhorter-linguistics-aa5",
   episodeDisplay: "84",
   date: "12/08/2017",
   category: "Race & Society",
@@ -1504,6 +1708,7 @@ const DOCUMENTARIES = [
 {
   title: "Page One: Inside the New York Times",
   episode: 85,
+  substackUrl: "https://www.wethefifth.com/p/085-w-jeffrey-blehar-roy-moore-takes-1f3",
   episodeDisplay: "85",
   date: "12/16/2017",
   category: "Media & Culture",
@@ -1525,6 +1730,7 @@ const DOCUMENTARIES = [
 {
   title: "Arguing the World",
   episode: 89,
+  substackUrl: "https://www.wethefifth.com/p/089-w-bari-weiss-and-mueller-gets-e41",
   episodeDisplay: "89",
   date: "1/27/2018",
   category: "Media & Culture",
@@ -1546,6 +1752,7 @@ const DOCUMENTARIES = [
 {
   title: "Accidental Courtesy: Daryl Davis, Race & America",
   episode: 94,
+  substackUrl: "https://www.wethefifth.com/p/094-w-jody-avirgan-enhanced-interrogation-27f",
   episodeDisplay: "94",
   date: "3/17/2018",
   category: "Race & Society",
@@ -1567,6 +1774,7 @@ const DOCUMENTARIES = [
 {
   title: "The Ballad of AJ Webberman",
   episode: 95,
+  substackUrl: "https://www.wethefifth.com/p/095-march-for-our-lives-how-to-journalist-dc7",
   episodeDisplay: "95",
   date: "3/29/2018",
   category: "Music",
@@ -1588,6 +1796,7 @@ const DOCUMENTARIES = [
 {
   title: "Hillary: The Movie",
   episode: 100,
+  substackUrl: "https://www.wethefifth.com/p/100-in-defense-of-red-pill-kanye-e3b",
   episodeDisplay: "100",
   date: "5/4/2018",
   category: "US Politics",
@@ -1609,6 +1818,7 @@ const DOCUMENTARIES = [
 {
   title: "The Clash: Westway to the World",
   episode: 100,
+  substackUrl: "https://www.wethefifth.com/p/100-in-defense-of-red-pill-kanye-e3b",
   episodeDisplay: "100",
   date: "5/4/2018",
   category: "Music",
@@ -1630,6 +1840,7 @@ const DOCUMENTARIES = [
 {
   title: "Death by China",
   episode: 100,
+  substackUrl: "https://www.wethefifth.com/p/100-in-defense-of-red-pill-kanye-e3b",
   episodeDisplay: "100",
   date: "5/4/2018",
   category: "International Politics",
@@ -1651,6 +1862,7 @@ const DOCUMENTARIES = [
 {
   title: "Moskeerne bag sløret",
   episode: 102,
+  substackUrl: "https://www.wethefifth.com/p/102-w-jacob-mchangama-clear-and-present-068",
   episodeDisplay: "102",
   date: "5/29/2018",
   category: "International Politics",
@@ -1672,6 +1884,7 @@ const DOCUMENTARIES = [
 {
   title: "White Right: Meeting the Enemy",
   episode: 104,
+  substackUrl: "https://www.wethefifth.com/p/104-when-trump-met-kim-neo-confederates-902",
   episodeDisplay: "104",
   date: "6/14/2018",
   category: "Race & Society",
@@ -1693,6 +1906,7 @@ const DOCUMENTARIES = [
 {
   title: "Patriot Prayer Is Dragging Antifa Into An Unwinnable PR War",
   episode: 110,
+  substackUrl: "https://www.wethefifth.com/p/110-w-jessica-tarlov-purging-alex-72c",
   episodeDisplay: "110",
   date: "8/9/2018",
   category: "US Politics",
@@ -1714,6 +1928,7 @@ const DOCUMENTARIES = [
 {
   title: "Sweden: Lessons for America",
   episode: 114,
+  substackUrl: "https://www.wethefifth.com/p/114-notes-on-moynihans-european-excursion-503",
   episodeDisplay: "114",
   date: "9/20/2018",
   category: "Economics / Business",
@@ -1735,6 +1950,7 @@ const DOCUMENTARIES = [
 {
   title: "Prohibition",
   episode: 126,
+  substackUrl: "https://www.wethefifth.com/p/126-trumps-fence-dating-ocasio-cortez-da4",
   episodeDisplay: "126",
   date: "1/11/2019",
   category: "US History",
@@ -1756,6 +1972,7 @@ const DOCUMENTARIES = [
 {
   title: "Lemmy",
   episode: 126,
+  substackUrl: "https://www.wethefifth.com/p/126-trumps-fence-dating-ocasio-cortez-da4",
   episodeDisplay: "126",
   date: "1/11/2019",
   category: "Music",
@@ -1777,6 +1994,7 @@ const DOCUMENTARIES = [
 {
   title: "Vietnam: A Television History",
   episode: 127,
+  substackUrl: "https://www.wethefifth.com/p/127-w-brian-stelter-the-holy-order-05d",
   episodeDisplay: "127",
   date: "1/18/2019",
   category: "International Politics",
@@ -1798,6 +2016,7 @@ const DOCUMENTARIES = [
 {
   title: "Television's Vietnam",
   episode: 127,
+  substackUrl: "https://www.wethefifth.com/p/127-w-brian-stelter-the-holy-order-05d",
   episodeDisplay: "127",
   date: "1/18/2019",
   category: "International Politics",
@@ -1819,6 +2038,7 @@ const DOCUMENTARIES = [
 {
   title: "The Woman Who Wasn't There",
   episode: 131,
+  substackUrl: "https://www.wethefifth.com/p/131-jussie-smollett-indicted-hate-8d6",
   episodeDisplay: "131",
   date: "2/21/2019",
   category: "Media & Culture",
@@ -1840,6 +2060,7 @@ const DOCUMENTARIES = [
 {
   title: "Leaving Neverland",
   episode: 133,
+  substackUrl: "https://www.wethefifth.com/p/133-canceling-neverland-and-everything-2ad",
   episodeDisplay: "133",
   date: "3/7/2019",
   category: "Crime",
@@ -1861,6 +2082,7 @@ const DOCUMENTARIES = [
 {
   title: "The Satanic Verses: 30 Years Later",
   episode: 133,
+  substackUrl: "https://www.wethefifth.com/p/133-canceling-neverland-and-everything-2ad",
   episodeDisplay: "133",
   date: "3/7/2019",
   category: "Media & Culture",
@@ -1882,6 +2104,7 @@ const DOCUMENTARIES = [
 {
   title: "Game Changers",
   episode: 135,
+  substackUrl: "https://www.wethefifth.com/p/135-privileged-college-parents-platform-0b7",
   episodeDisplay: "135",
   date: "3/18/2019",
   category: "Media & Culture",
@@ -1903,6 +2126,7 @@ const DOCUMENTARIES = [
 {
   title: "The Wrecking Crew",
   episode: 135,
+  substackUrl: "https://www.wethefifth.com/p/135-privileged-college-parents-platform-0b7",
   episodeDisplay: "135",
   date: "3/18/2019",
   category: "Music",
@@ -1924,6 +2148,7 @@ const DOCUMENTARIES = [
 {
   title: "Running with Beto",
   episode: 135,
+  substackUrl: "https://www.wethefifth.com/p/135-privileged-college-parents-platform-0b7",
   episodeDisplay: "135",
   date: "3/18/2019",
   category: "US Politics",
@@ -1945,6 +2170,7 @@ const DOCUMENTARIES = [
 {
   title: "The Inventor: Out for Blood in Silicon Valley",
   episode: 136,
+  substackUrl: "https://www.wethefifth.com/p/136-w-tina-nguyen-islamists-v-white-e72",
   episodeDisplay: "136",
   date: "3/24/2019",
   category: "Economics / Business",
@@ -1966,6 +2192,7 @@ const DOCUMENTARIES = [
 {
   title: "Spielberg",
   episode: 140,
+  substackUrl: "https://www.wethefifth.com/p/140-w-ben-dreyfuss-muller-who-jill-311",
   episodeDisplay: "140",
   date: "4/19/2019",
   category: "Media & Culture",
@@ -1987,6 +2214,7 @@ const DOCUMENTARIES = [
 {
   title: "Surviving R. Kelly",
   episode: 141,
+  substackUrl: "https://www.wethefifth.com/p/141-w-eli-lake-muller-report-julian-a64",
   episodeDisplay: "141",
   date: "4/25/2019",
   category: "Crime",
@@ -2008,6 +2236,7 @@ const DOCUMENTARIES = [
 {
   title: "5 Reasons We Need Hate Speech",
   episode: 142,
+  substackUrl: "https://www.wethefifth.com/p/142-the-great-deplatforming-conspiracy-1a4",
   episodeDisplay: "142",
   date: "5/12/2019",
   category: "Media & Culture",
@@ -2029,6 +2258,7 @@ const DOCUMENTARIES = [
 {
   title: "The Seven Five",
   episode: 143,
+  substackUrl: "https://www.wethefifth.com/p/143-how-to-get-arrested-in-brooklyn-69a",
   episodeDisplay: "143",
   date: "5/30/2019",
   category: "US History",
@@ -2050,6 +2280,7 @@ const DOCUMENTARIES = [
 {
   title: "Breslin and Hamill: Deadline Artists",
   episode: 145,
+  substackUrl: "https://www.wethefifth.com/p/145-dem-debates-plan-b-for-iran-history-c9f",
   episodeDisplay: "145",
   date: "6/27/2019",
   category: "Media & Culture",
@@ -2070,6 +2301,7 @@ const DOCUMENTARIES = [
 {
   title: "Everything Is Copy – Nora Ephron: Scripted & Unscripted",
   episode: 147,
+  substackUrl: "https://www.wethefifth.com/p/147-w-molly-jong-fast-trumps-social-d3a",
   episodeDisplay: "147",
   date: "7/12/2019",
   category: "Media & Culture",
@@ -2090,6 +2322,7 @@ const DOCUMENTARIES = [
 {
   title: "Erica Jong: Breaking the Wall",
   episode: 147,
+  substackUrl: "https://www.wethefifth.com/p/147-w-molly-jong-fast-trumps-social-d3a",
   episodeDisplay: "147",
   date: "7/12/2019",
   category: "Media & Culture",
@@ -2110,6 +2343,7 @@ const DOCUMENTARIES = [
 {
   title: "Bikram: Yogi, Guru, Predator",
   episode: 148,
+  substackUrl: "https://www.wethefifth.com/p/148-w-ben-dreyfuss-mueller-talks-234",
   episodeDisplay: "148",
   date: "7/28/2019",
   category: "Crime",
@@ -2236,6 +2470,7 @@ const DOCUMENTARIES = [
 {
   title: "Tottenham Ayatollah",
   episode: 149,
+  substackUrl: "https://www.wethefifth.com/p/149-w-jon-ronson-porn-stars-psychopaths-248",
   episodeDisplay: "149",
   date: "8/2/2019",
   category: "International Politics",
@@ -2257,6 +2492,7 @@ const DOCUMENTARIES = [
 {
   title: "The Hurricane Tapes",
   episode: 151,
+  substackUrl: "https://www.wethefifth.com/p/151-that-1619-project-liturgical-bb3",
   episodeDisplay: "151",
   date: "8/26/2019",
   category: "US History",
@@ -2278,6 +2514,7 @@ const DOCUMENTARIES = [
 {
   title: "Rolling Thunder Revue: A Bob Dylan Story",
   episode: 151,
+  substackUrl: "https://www.wethefifth.com/p/151-that-1619-project-liturgical-bb3",
   episodeDisplay: "151",
   date: "8/26/2019",
   category: "Music",
@@ -2299,6 +2536,7 @@ const DOCUMENTARIES = [
 {
   title: "The Aristocrats",
   episode: 154,
+  substackUrl: "https://www.wethefifth.com/p/154-still-teflon-don-moynihans-emmy-54f",
   episodeDisplay: "154",
   date: "9/27/2019",
   category: "Media & Culture",
@@ -2320,6 +2558,7 @@ const DOCUMENTARIES = [
 {
   title: "My Brother's Bomber",
   episode: 155,
+  substackUrl: "https://www.wethefifth.com/p/155-unforgivable-the-swampiest-swamp-fa0",
   episodeDisplay: "155",
   date: "10/4/2019",
   category: "International Politics",
@@ -2341,6 +2580,7 @@ const DOCUMENTARIES = [
 {
   title: "Unquiet Graves",
   episode: 155,
+  substackUrl: "https://www.wethefifth.com/p/155-unforgivable-the-swampiest-swamp-fa0",
   episodeDisplay: "155",
   date: "10/4/2019",
   category: "International Politics",
@@ -2362,6 +2602,7 @@ const DOCUMENTARIES = [
 {
   title: "Free to Choose",
   episode: 156,
+  substackUrl: "https://www.wethefifth.com/p/156-w-walt-hickey-china-cancels-the-351",
   episodeDisplay: "156",
   date: "10/10/2019",
   category: "Economics / Business",
@@ -2383,6 +2624,7 @@ const DOCUMENTARIES = [
 {
   title: "Jim: The James Foley Story",
   episode: 156,
+  substackUrl: "https://www.wethefifth.com/p/156-w-walt-hickey-china-cancels-the-351",
   episodeDisplay: "156",
   date: "10/10/2019",
   category: "International Politics",
@@ -2404,6 +2646,7 @@ const DOCUMENTARIES = [
 {
   title: "Tiananmen: The People v the Party",
   episode: 156,
+  substackUrl: "https://www.wethefifth.com/p/156-w-walt-hickey-china-cancels-the-351",
   episodeDisplay: "156",
   date: "10/10/2019",
   category: "International Politics",
@@ -2425,6 +2668,7 @@ const DOCUMENTARIES = [
 {
   title: "Hated: GG Allin and the Murder Junkies",
   episode: 156,
+  substackUrl: "https://www.wethefifth.com/p/156-w-walt-hickey-china-cancels-the-351",
   episodeDisplay: "156",
   date: "10/10/2019",
   category: "Music",
@@ -2446,6 +2690,7 @@ const DOCUMENTARIES = [
 {
   title: "Jane Fonda in Five Acts",
   episode: 159,
+  substackUrl: "https://www.wethefifth.com/p/159-w-bari-weiss-how-to-fight-anti-df7",
   episodeDisplay: "159",
   date: "11/09/2019",
   category: "Media & Culture",
@@ -2467,6 +2712,7 @@ const DOCUMENTARIES = [
 {
   title: "American Dharma",
   episode: 160,
+  substackUrl: "https://www.wethefifth.com/p/160-pub-hopping-impeachment-hearings-342",
   episodeDisplay: "160",
   date: "11/17/2019",
   category: "US Politics",
@@ -2488,6 +2734,7 @@ const DOCUMENTARIES = [
 {
   title: "The Thin Blue Line",
   episode: 160,
+  substackUrl: "https://www.wethefifth.com/p/160-pub-hopping-impeachment-hearings-342",
   episodeDisplay: "160",
   date: "11/17/2019",
   category: "US History",
@@ -2509,6 +2756,7 @@ const DOCUMENTARIES = [
 {
   title: "The Unknown Known",
   episode: 160,
+  substackUrl: "https://www.wethefifth.com/p/160-pub-hopping-impeachment-hearings-342",
   episodeDisplay: "160",
   date: "11/17/2019",
   category: "US Politics",
@@ -2530,6 +2778,7 @@ const DOCUMENTARIES = [
 {
   title: "The Fog of War: Eleven Lessons from the Life of Robert S. McNamara",
   episode: 160,
+  substackUrl: "https://www.wethefifth.com/p/160-pub-hopping-impeachment-hearings-342",
   episodeDisplay: "160",
   date: "11/17/2019",
   category: "US Politics",
@@ -2551,6 +2800,7 @@ const DOCUMENTARIES = [
 {
   title: "Mr. Death: The Rise and Fall of Fred A. Leuchter, Jr.",
   episode: 161,
+  substackUrl: "https://www.wethefifth.com/p/161-unimpeachably-guilty-ilovefiona-b15",
   episodeDisplay: "161",
   date: "11/24/2019",
   category: "US History",
@@ -2614,6 +2864,7 @@ const DOCUMENTARIES = [
 {
   title: "An Honest Liar",
   episode: 164,
+  substackUrl: "https://www.wethefifth.com/p/164-uk-elections-afghan-papers-prophylactic-058",
   episodeDisplay: "164",
   date: "12/14/2019",
   category: "Media & Culture",
@@ -2635,6 +2886,7 @@ const DOCUMENTARIES = [
 {
   title: "Restrepo",
   episode: 164,
+  substackUrl: "https://www.wethefifth.com/p/164-uk-elections-afghan-papers-prophylactic-058",
   episodeDisplay: "164",
   date: "12/14/2019",
   category: "International Politics",
@@ -2740,6 +2992,7 @@ const DOCUMENTARIES = [
 {
   title: "Joshua: Teenager vs. Superpower",
   episode: 169,
+  substackUrl: "https://www.wethefifth.com/p/episode-169-im-so-sorry-this-is-happening-2b1",
   episodeDisplay: "169",
   date: "1/30/2020",
   category: "International Politics",
@@ -2864,6 +3117,7 @@ const DOCUMENTARIES = [
 {
   title: "Getting Made: The Making of 'Goodfellas'",
   episode: 172,
+  substackUrl: "https://www.wethefifth.com/p/episode-172-the-swamp-the-potus-the-65b",
   episodeDisplay: "172",
   date: "2/19/2020",
   category: "Media & Culture",
@@ -2884,6 +3138,7 @@ const DOCUMENTARIES = [
 {
   title: "The Civil War",
   episode: 172,
+  substackUrl: "https://www.wethefifth.com/p/episode-172-the-swamp-the-potus-the-65b",
   episodeDisplay: "172",
   date: "2/19/2020",
   category: "US History",
@@ -2904,6 +3159,7 @@ const DOCUMENTARIES = [
 {
   title: "The Sorrow and the Pity (Le Chagrin et la Pitié)",
   episode: 172,
+  substackUrl: "https://www.wethefifth.com/p/episode-172-the-swamp-the-potus-the-65b",
   episodeDisplay: "172",
   date: "2/19/2020",
   category: "International Politics",
@@ -2988,6 +3244,7 @@ const DOCUMENTARIES = [
 {
   title: "Baseball",
   episode: 176,
+  substackUrl: "https://www.wethefifth.com/p/episode-176-my-corona-pat-foster-0e2",
   episodeDisplay: "176",
   date: "3/17/2020",
   category: "Sports",
@@ -3010,6 +3267,7 @@ const DOCUMENTARIES = [
 {
   title: "Manufacturing Consent",
   episode: 176,
+  substackUrl: "https://www.wethefifth.com/p/episode-176-my-corona-pat-foster-0e2",
   episodeDisplay: "176",
   date: "3/17/2020",
   category: "International Politics",
@@ -3196,6 +3454,7 @@ const DOCUMENTARIES = [
 {
   title: "They Shall Not Grow Old",
   episode: 179,
+  substackUrl: "https://www.wethefifth.com/p/episode-179-a-most-racist-pandemic-d48",
   episodeDisplay: "179",
   date: "4/6/2020",
   category: "International Politics",
@@ -3236,6 +3495,7 @@ const DOCUMENTARIES = [
 {
   title: "Testing the Divide",
   episode: 181,
+  substackUrl: "https://www.wethefifth.com/p/episode-181-w-zaid-jilani-coleman-055",
   episodeDisplay: "181",
   date: "4/21/2020",
   category: "Race & Society",
@@ -3362,6 +3622,7 @@ const DOCUMENTARIES = [
 {
   title: "The Weather Underground",
   episode: 198,
+  substackUrl: "https://www.wethefifth.com/p/198-w-nancy-rommelmann-theres-a-riot-47b",
   episodeDisplay: "198",
   date: "7/29/2020",
   category: "US History",
@@ -3383,6 +3644,7 @@ const DOCUMENTARIES = [
 {
   title: "Plandemic",
   episode: 198,
+  substackUrl: "https://www.wethefifth.com/p/198-w-nancy-rommelmann-theres-a-riot-47b",
   episodeDisplay: "198",
   date: "7/29/2020",
   category: "Health & Medicine",
@@ -3404,6 +3666,7 @@ const DOCUMENTARIES = [
 {
   title: "Ghosts of Rwanda",
   episode: 200,
+  substackUrl: "https://www.wethefifth.com/p/200-w-andrew-sullivan-uncancellable-b22",
   episodeDisplay: "200",
   date: "8/13/2020",
   category: "International Politics",
@@ -3446,6 +3709,7 @@ const DOCUMENTARIES = [
 {
   title: "The Dad Changing How Police Shootings Are Investigated",
   episode: 202,
+  substackUrl: "https://www.wethefifth.com/p/202-w-tina-nguyen-trump-on-twitch-7a1",
   episodeDisplay: "202",
   date: "9/1/2020",
   category: "Race & Society",
@@ -3486,6 +3750,7 @@ const DOCUMENTARIES = [
 {
   title: "Whitney",
   episode: 203,
+  substackUrl: "https://www.wethefifth.com/p/203-w-nancy-rommelmann-from-portland-0f7",
   episodeDisplay: "203",
   date: "9/6/2020",
   category: "Music",
@@ -3569,6 +3834,7 @@ const DOCUMENTARIES = [
 {
   title: "Madonna: Truth or Dare",
   episode: 207,
+  substackUrl: "https://www.wethefifth.com/p/207-hunters-laptop-ordinary-corruption-573",
   episodeDisplay: "207",
   date: "10/20/2020",
   category: "Music",
@@ -3590,6 +3856,7 @@ const DOCUMENTARIES = [
 {
   title: "The War Room",
   episode: 207,
+  substackUrl: "https://www.wethefifth.com/p/207-hunters-laptop-ordinary-corruption-573",
   episodeDisplay: "207",
   date: "10/20/2020",
   category: "US Politics",
@@ -3611,6 +3878,7 @@ const DOCUMENTARIES = [
 {
   title: "What Killed Michael Brown?",
   episode: 207,
+  substackUrl: "https://www.wethefifth.com/p/207-hunters-laptop-ordinary-corruption-573",
   episodeDisplay: "207",
   date: "10/20/2020",
   category: "Race & Society",
@@ -3673,6 +3941,7 @@ const DOCUMENTARIES = [
 {
   title: "Marjoe",
   episode: 213,
+  substackUrl: "https://www.wethefifth.com/p/213-da-mystery-of-defunding-the-police-98f",
   episodeDisplay: "213",
   date: "12/4/2020",
   category: "Media & Culture",
@@ -3945,6 +4214,7 @@ const DOCUMENTARIES = [
 {
   title: "Controlling Brittney Spears",
   episode: 225,
+  substackUrl: "https://www.wethefifth.com/p/225-w-martin-gurri-the-revolt-of-d89",
   episodeDisplay: "225",
   date: "2/19/2021",
   category: "Media & Culture",
@@ -3987,6 +4257,7 @@ const DOCUMENTARIES = [
 {
   title: "Biggie: I Got A Story To Tell",
   episode: 227,
+  substackUrl: "https://www.wethefifth.com/p/227-w-ben-smith-sign-o-the-times-3aa",
   episodeDisplay: "227",
   date: "3/4/2021",
   category: "Music",
@@ -4112,6 +4383,7 @@ const DOCUMENTARIES = [
 {
   title: "Beats, Rhymes & Life: The Travels of a Tribe Called Quest",
   episode: 301,
+  substackUrl: "https://www.wethefifth.com/p/301-five-years-of-impending-doom-01f",
   episodeDisplay: "301",
   date: "4/3/21",
   category: "Music",
@@ -4133,6 +4405,7 @@ const DOCUMENTARIES = [
 {
   title: "Exterminate All the Brutes",
   episode: 303,
+  substackUrl: "https://www.wethefifth.com/p/303-w-alex-nowrasteh-the-time-we-059",
   episodeDisplay: "303",
   date: "4/16/2021",
   category: "Race & Society",
@@ -4238,6 +4511,7 @@ const DOCUMENTARIES = [
 {
   title: "Fernandomania @ 40",
   episode: 306,
+  substackUrl: "https://www.wethefifth.com/p/306-w-gustavo-arellano-ask-a-mexican-fae",
   episodeDisplay: "306",
   date: "5/13/2021",
   category: "Sports",
@@ -4259,6 +4533,7 @@ const DOCUMENTARIES = [
 {
   title: "Buck Breaking",
   episode: 306,
+  substackUrl: "https://www.wethefifth.com/p/306-w-gustavo-arellano-ask-a-mexican-fae",
   episodeDisplay: "306",
   date: "5/13/2021",
   category: "Weirdo Documentaries",
@@ -4322,6 +4597,7 @@ const DOCUMENTARIES = [
 {
   title: "Is Trump Still the Future of the Republican Party?",
   episode: 308,
+  substackUrl: "https://www.wethefifth.com/p/308-a-year-of-reckoning-return-to-b2e",
   episodeDisplay: "308",
   date: "5/30/2021",
   category: "US Politics",
@@ -4363,6 +4639,7 @@ const DOCUMENTARIES = [
 {
   title: "The Last Days of Vietnam",
   episode: 321,
+  substackUrl: "https://www.wethefifth.com/p/321-back-to-the-ramble-how-to-gauge-41e",
   episodeDisplay: "321",
   date: "6/24/2021",
   category: "International Politics",
@@ -4443,6 +4720,7 @@ const DOCUMENTARIES = [
 {
   title: "Oasis: Knebworth 1996",
   episode: 324,
+  substackUrl: "https://www.wethefifth.com/p/324-simmons-flu-game-why-amy-cooper-bf9",
   episodeDisplay: "324",
   date: "7/29/2021",
   category: "Music",
@@ -4563,6 +4841,7 @@ const DOCUMENTARIES = [
 {
   title: "Patriot Purge",
   episode: 335,
+  substackUrl: "https://www.wethefifth.com/p/335-assata-shakur-elementary-school-7ef",
   episodeDisplay: "335",
   date: "11/7/2021",
   category: "US Politics",
@@ -4604,6 +4883,7 @@ const DOCUMENTARIES = [
 {
   title: "We Steal Secrets: The Story of WikiLeaks",
   episode: 339,
+  substackUrl: "https://www.wethefifth.com/p/339-wrep-peter-meijer-the-rinovirus-65f",
   episodeDisplay: "339",
   date: "12/17/2021",
   category: "Media & Culture",
@@ -4667,6 +4947,7 @@ const DOCUMENTARIES = [
 {
   title: "New York: A Documentary Film",
   episode: 341,
+  substackUrl: "https://www.wethefifth.com/p/341-w-matt-rosenberg-nyt-a-coupniversary-2b2",
   episodeDisplay: "341",
   date: "1/7/2022",
   category: "US History",
@@ -4835,6 +5116,7 @@ const DOCUMENTARIES = [
 {
   title: "Collision! Free Speech and Religion",
   episode: 344,
+  substackUrl: "https://www.wethefifth.com/p/344-wjacob-mchangama-speech-sheep-b4f",
   episodeDisplay: "344",
   date: "2/6/2022",
   category: "Race & Society",
@@ -4898,6 +5180,7 @@ const DOCUMENTARIES = [
 {
   title: "Last Chance High",
   episode: 349,
+  substackUrl: "https://www.wethefifth.com/p/349-moynihan-taps-in-from-ukraine-988",
   episodeDisplay: "349",
   date: "3/15/2022",
   category: "Race & Society",
@@ -4919,6 +5202,7 @@ const DOCUMENTARIES = [
 {
   title: "Smash His Camera",
   episode: 350,
+  substackUrl: "https://www.wethefifth.com/p/350-destroying-ukraine-supreme-confirmation-68f",
   episodeDisplay: "350",
   date: "3/24/2022",
   category: "Media & Culture",
@@ -5003,6 +5287,7 @@ const DOCUMENTARIES = [
 {
   title: "Good Hair",
   episode: 351,
+  substackUrl: "https://www.wethefifth.com/p/351-the-problem-with-jon-stewart-a8d",
   episodeDisplay: "351",
   date: "4/2/2022",
   category: "Race & Society",
@@ -5045,6 +5330,7 @@ const DOCUMENTARIES = [
 {
   title: "Pandora's Box: Black Power",
   episode: 353,
+  substackUrl: "https://www.wethefifth.com/p/353-destroying-democracy-one-tweet-13e",
   episodeDisplay: "353",
   date: "4/16/2022",
   category: "Race & Society",
@@ -5109,6 +5395,7 @@ const DOCUMENTARIES = [
 {
   title: "American Movie",
   episode: 357,
+  substackUrl: "https://www.wethefifth.com/p/357-w-lara-bazelon-this-podcast-is",
   episodeDisplay: "357",
   date: "5/13/2022",
   category: "Media & Culture",
@@ -5130,6 +5417,7 @@ const DOCUMENTARIES = [
 {
   title: "The Hunting Ground",
   episode: 357,
+  substackUrl: "https://www.wethefifth.com/p/357-w-lara-bazelon-this-podcast-is",
   episodeDisplay: "357",
   date: "5/13/2022",
   category: "Race & Society",
@@ -5151,6 +5439,7 @@ const DOCUMENTARIES = [
 {
   title: "Doin' Time in Times Square",
   episode: 358,
+  substackUrl: "https://www.wethefifth.com/p/358-live-at-the-comedy-cellar-w-michael",
   episodeDisplay: "358",
   date: "5/22/2022",
   category: "Media & Culture",
@@ -5172,6 +5461,7 @@ const DOCUMENTARIES = [
 {
   title: "Our Father",
   episode: 358,
+  substackUrl: "https://www.wethefifth.com/p/358-live-at-the-comedy-cellar-w-michael",
   episodeDisplay: "358",
   date: "5/22/2022",
   category: "Health & Medicine",
@@ -5180,6 +5470,7 @@ const DOCUMENTARIES = [
   year: 2022,
   title: "The Civil War",
   episode: 172,
+  substackUrl: "https://www.wethefifth.com/p/episode-172-the-swamp-the-potus-the-65b",
   episodeDisplay: "172",
   date: "2/19/2020",
   category: "US History",
@@ -5200,6 +5491,7 @@ const DOCUMENTARIES = [
 {
   title: "Bowling for Columbine",
   episode: 359,
+  substackUrl: "https://www.wethefifth.com/p/359-a-massacre-in-texas-an-incident",
   episodeDisplay: "359",
   date: "5/26/2022",
   category: "Crime",
@@ -5242,6 +5534,7 @@ const DOCUMENTARIES = [
 {
   title: "Roy Woods Jr. Explores Gentrification in Brooklyn",
   episode: 362,
+  substackUrl: "https://www.wethefifth.com/p/362-trumps-deranged-bed-stuy-replacement",
   episodeDisplay: "362",
   date: "6/16/2022",
   category: "Race & Society",
@@ -5263,6 +5556,7 @@ const DOCUMENTARIES = [
 {
   title: "The Anarchists",
   episode: 365,
+  substackUrl: "https://www.wethefifth.com/p/365-w-david-french-people-with-capacities",
   episodeDisplay: "365",
   date: "7/15/2022",
   category: "US Politics",
@@ -5368,6 +5662,7 @@ const DOCUMENTARIES = [
 {
   title: "2000 Mules",
   episode: 368,
+  substackUrl: "https://www.wethefifth.com/p/368-w-eli-lake-mar-a-lago-momentos",
   episodeDisplay: "368",
   date: "8/13/2022",
   category: "US Politics",
@@ -5389,6 +5684,7 @@ const DOCUMENTARIES = [
 {
   title: "Sex: The Revolution",
   episode: 368,
+  substackUrl: "https://www.wethefifth.com/p/368-w-eli-lake-mar-a-lago-momentos",
   episodeDisplay: "368",
   date: "8/13/2022",
   category: "Media & Culture",
@@ -5431,6 +5727,7 @@ const DOCUMENTARIES = [
 {
   title: "Philly D.A.",
   episode: 369,
+  substackUrl: "https://www.wethefifth.com/p/369-w-lara-bazelon-and-hamish-mckenzie",
   episodeDisplay: "369",
   date: "8/20/2022",
   category: "US Politics",
@@ -5703,6 +6000,7 @@ const DOCUMENTARIES = [
 {
   title: "The Obama Deception: The Mask Comes Off",
   episode: 377,
+  substackUrl: "https://www.wethefifth.com/p/377-racist-la-racist-brooklyn-deplorable",
   episodeDisplay: "377",
   date: "10/13/2022",
   category: "US Politics",
@@ -5766,6 +6064,7 @@ const DOCUMENTARIES = [
 {
   title: "Let It Be (2024 Re-Release)",
   episode: 378,
+  substackUrl: "https://www.wethefifth.com/p/378-nazis-and-sycophants-and-cynics",
   episodeDisplay: "378",
   date: "10/20/2022",
   category: "Music",
@@ -5829,6 +6128,7 @@ const DOCUMENTARIES = [
 {
   title: "Devil Next Door",
   episode: 382,
+  substackUrl: "https://www.wethefifth.com/p/382-w-nadav-eyal-revolt-and-resurrection",
   episodeDisplay: "382",
   date: "11/19/2022",
   category: "US History",
@@ -5871,6 +6171,7 @@ const DOCUMENTARIES = [
 {
   title: "The Greatest Lie Ever Sold: George Floyd and the Rise of BLM",
   episode: 383,
+  substackUrl: "https://www.wethefifth.com/p/383-w-ethan-strauss-the-realest-jews",
   episodeDisplay: "383",
   date: "11/23/2022",
   category: "Race & Society",
@@ -5892,6 +6193,7 @@ const DOCUMENTARIES = [
 {
   title: "What Is A Woman",
   episode: 383,
+  substackUrl: "https://www.wethefifth.com/p/383-w-ethan-strauss-the-realest-jews",
   episodeDisplay: "383",
   date: "11/23/2022",
   category: "Race & Society",
@@ -5913,6 +6215,7 @@ const DOCUMENTARIES = [
 {
   title: "When the Levees Broke: A Requiem in Four Acts",
   episode: 383,
+  substackUrl: "https://www.wethefifth.com/p/383-w-ethan-strauss-the-realest-jews",
   episodeDisplay: "383",
   date: "11/23/2022",
   category: "US History",
@@ -6015,6 +6318,7 @@ const DOCUMENTARIES = [
 {
   title: "House of Hammer",
   episode: 394,
+  substackUrl: "https://www.wethefifth.com/p/394-w-jamie-kirchick-hammer-time",
   episodeDisplay: "394",
   date: "2/9/2023",
   category: "Media & Culture",
@@ -6035,6 +6339,7 @@ const DOCUMENTARIES = [
 {
   title: "Freedom's Fury",
   episode: 154,
+  substackUrl: "https://www.wethefifth.com/p/154-still-teflon-don-moynihans-emmy-54f",
   episodeDisplay: "MO #154",
   date: "2/27/2023",
   category: "Sports",
@@ -6056,6 +6361,7 @@ const DOCUMENTARIES = [
 {
   title: "MC5: A True Testimonial",
   episode: 154,
+  substackUrl: "https://www.wethefifth.com/p/154-still-teflon-don-moynihans-emmy-54f",
   episodeDisplay: "MO #154",
   date: "2/27/2023",
   category: "Music",
@@ -6077,6 +6383,7 @@ const DOCUMENTARIES = [
 {
   title: "The Putin Interviews",
   episode: 154,
+  substackUrl: "https://www.wethefifth.com/p/154-still-teflon-don-moynihans-emmy-54f",
   episodeDisplay: "MO #154",
   date: "2/27/2023",
   category: "International Politics",
@@ -6098,6 +6405,7 @@ const DOCUMENTARIES = [
 {
   title: "6 Days to Air: The Making of South Park",
   episode: 155,
+  substackUrl: "https://www.wethefifth.com/p/155-unforgivable-the-swampiest-swamp-fa0",
   episodeDisplay: "MO #155",
   date: "3/6/2023",
   category: "Media & Culture",
@@ -6119,6 +6427,7 @@ const DOCUMENTARIES = [
 {
   title: "Havana Jam '79",
   episode: 157,
+  substackUrl: "https://www.wethefifth.com/p/157-w-meghan-daum-the-problem-with-a04",
   episodeDisplay: "MO #157",
   date: "3/20/2023",
   category: "Music",
@@ -6140,6 +6449,7 @@ const DOCUMENTARIES = [
 {
   title: "The Age of Easy Money",
   episode: 157,
+  substackUrl: "https://www.wethefifth.com/p/157-w-meghan-daum-the-problem-with-a04",
   episodeDisplay: "MO #157",
   date: "3/20/2023",
   category: "Economics / Business",
@@ -6161,6 +6471,7 @@ const DOCUMENTARIES = [
 {
   title: "Jimmy Carter: Rock and Roll President",
   episode: 157,
+  substackUrl: "https://www.wethefifth.com/p/157-w-meghan-daum-the-problem-with-a04",
   episodeDisplay: "MO #157",
   date: "3/20/2023",
   category: "Music",
@@ -6182,6 +6493,7 @@ const DOCUMENTARIES = [
 {
   title: "The Natural History of Destruction",
   episode: 157,
+  substackUrl: "https://www.wethefifth.com/p/157-w-meghan-daum-the-problem-with-a04",
   episodeDisplay: "MO #157",
   date: "3/20/2023",
   category: "International Politics",
@@ -6203,6 +6515,7 @@ const DOCUMENTARIES = [
 {
   title: "The Trial",
   episode: 157,
+  substackUrl: "https://www.wethefifth.com/p/157-w-meghan-daum-the-problem-with-a04",
   episodeDisplay: "MO #157",
   date: "3/20/2023",
   category: "International Politics",
@@ -6224,6 +6537,7 @@ const DOCUMENTARIES = [
 {
   title: "Mr. Landsbergis",
   episode: 157,
+  substackUrl: "https://www.wethefifth.com/p/157-w-meghan-daum-the-problem-with-a04",
   episodeDisplay: "MO #157",
   date: "3/20/2023",
   category: "International Politics",
@@ -6245,6 +6559,7 @@ const DOCUMENTARIES = [
 {
   title: "Red Elvis: Rise of the Cold War Cowboy",
   episode: 158,
+  substackUrl: null,
   episodeDisplay: "MO #158",
   date: "3/28/2023",
   category: "Music",
@@ -6266,6 +6581,7 @@ const DOCUMENTARIES = [
 {
   title: "Waco: American Apocalypse",
   episode: 158,
+  substackUrl: null,
   episodeDisplay: "MO #158",
   date: "3/28/2023",
   category: "US History",
@@ -6287,6 +6603,7 @@ const DOCUMENTARIES = [
 {
   title: "Waco: Rules of Engagement",
   episode: 158,
+  substackUrl: null,
   episodeDisplay: "MO #158",
   date: "3/28/2023",
   category: "US History",
@@ -6308,6 +6625,7 @@ const DOCUMENTARIES = [
 {
   title: "Sign of the Times",
   episode: 161,
+  substackUrl: "https://www.wethefifth.com/p/161-unimpeachably-guilty-ilovefiona-b15",
   episodeDisplay: "MO #161",
   date: "4/17/2023",
   category: "Music",
@@ -6329,6 +6647,7 @@ const DOCUMENTARIES = [
 {
   title: "Queen Cleopatra",
   episode: 161,
+  substackUrl: "https://www.wethefifth.com/p/161-unimpeachably-guilty-ilovefiona-b15",
   episodeDisplay: "MO #161",
   date: "4/17/2023",
   category: "Media & Culture",
@@ -6350,6 +6669,7 @@ const DOCUMENTARIES = [
 {
   title: "Being Frank: The Chris Sievey Story",
   episode: 403,
+  substackUrl: "https://www.wethefifth.com/p/403-fire-in-a-crowded-theater",
   episodeDisplay: "403",
   date: "4/20/2023",
   category: "Media & Culture",
@@ -6371,6 +6691,7 @@ const DOCUMENTARIES = [
 {
   title: "Ruby Ridge",
   episode: 162,
+  substackUrl: "https://www.wethefifth.com/p/162-w-errol-morris-steve-bannon-american-118",
   episodeDisplay: "MO #162",
   date: "4/24/2023",
   category: "US History",
@@ -6392,6 +6713,7 @@ const DOCUMENTARIES = [
 {
   title: "The Debutante",
   episode: 162,
+  substackUrl: "https://www.wethefifth.com/p/162-w-errol-morris-steve-bannon-american-118",
   episodeDisplay: "MO #162",
   date: "4/24/2023",
   category: "Crime",
@@ -6413,6 +6735,7 @@ const DOCUMENTARIES = [
 {
   title: "Secret Rulers of the World: The Legend of Ruby Ridge",
   episode: 162,
+  substackUrl: "https://www.wethefifth.com/p/162-w-errol-morris-steve-bannon-american-118",
   episodeDisplay: "MO #162",
   date: "4/24/2023",
   category: "US History",
@@ -6434,6 +6757,7 @@ const DOCUMENTARIES = [
 {
   title: "Dispatches from the Well",
   episode: 163,
+  substackUrl: "https://www.wethefifth.com/p/163-kamala-quits-nato-splinters-impeachments-0a2",
   episodeDisplay: "MO #163",
   date: "5/2/2023",
   category: "Science & Technology",
@@ -6455,6 +6779,7 @@ const DOCUMENTARIES = [
 {
   title: "The Kings",
   episode: 163,
+  substackUrl: "https://www.wethefifth.com/p/163-kamala-quits-nato-splinters-impeachments-0a2",
   episodeDisplay: "MO #163",
   date: "5/2/2023",
   category: "Sports",
@@ -6476,6 +6801,7 @@ const DOCUMENTARIES = [
 {
   title: "The Real Charlie Chaplin",
   episode: 163,
+  substackUrl: "https://www.wethefifth.com/p/163-kamala-quits-nato-splinters-impeachments-0a2",
   episodeDisplay: "MO #163",
   date: "5/2/2023",
   category: "Media & Culture",
@@ -6497,6 +6823,7 @@ const DOCUMENTARIES = [
 {
   title: "Honor Flight",
   episode: 164,
+  substackUrl: "https://www.wethefifth.com/p/164-uk-elections-afghan-papers-prophylactic-058",
   episodeDisplay: "MO #164",
   date: "5/8/2023",
   category: "US History",
@@ -6517,6 +6844,7 @@ const DOCUMENTARIES = [
 {
   title: "Rush: Beyond the Lighted Stage",
   episode: 171,
+  substackUrl: null,
   episodeDisplay: "MO #171",
   date: "6/19/2023",
   category: "Music",
@@ -6537,6 +6865,7 @@ const DOCUMENTARIES = [
 {
   title: "Riding the Rails",
   episode: 414,
+  substackUrl: "https://www.wethefifth.com/p/414-clarifications-curried-goats",
   episodeDisplay: "414",
   date: "7/9/2023",
   category: "US History",
@@ -6558,6 +6887,7 @@ const DOCUMENTARIES = [
 {
   title: "Chuck Berry: Hail! Hail! Rock n' Roll",
   episode: 415,
+  substackUrl: "https://www.wethefifth.com/p/415-the-pod-of-laughter-and-forgetting",
   episodeDisplay: "415",
   date: "7/14/2023",
   category: "Music",
@@ -6579,6 +6909,7 @@ const DOCUMENTARIES = [
 {
   title: "What Happened, Brittany Murphy?",
   episode: 174,
+  substackUrl: null,
   episodeDisplay: "MO #174",
   date: "7/26/2023",
   category: "Media & Culture",
@@ -6600,6 +6931,7 @@ const DOCUMENTARIES = [
 {
   title: "Campus Argument Goes Viral As Evergreen State Is Caught In Racial Turmoil",
   episode: 416,
+  substackUrl: "https://www.wethefifth.com/p/416-a-sloppy-summer-pod-recovered",
   episodeDisplay: "416",
   date: "8/1/2023",
   category: "Race & Society",
@@ -6621,6 +6953,7 @@ const DOCUMENTARIES = [
 {
   title: "Mr. Conservative: Goldwater on Goldwater",
   episode: 176,
+  substackUrl: "https://www.wethefifth.com/p/episode-176-my-corona-pat-foster-0e2",
   episodeDisplay: "MO #176",
   date: "8/14/2023",
   category: "US Politics",
@@ -6642,6 +6975,7 @@ const DOCUMENTARIES = [
 {
   title: "Searching for Sugar Man",
   episode: 176,
+  substackUrl: "https://www.wethefifth.com/p/episode-176-my-corona-pat-foster-0e2",
   episodeDisplay: "MO #176",
   date: "8/14/2023",
   category: "Music",
@@ -6663,6 +6997,7 @@ const DOCUMENTARIES = [
 {
   title: "Obit.",
   episode: 417,
+  substackUrl: "https://www.wethefifth.com/p/417-free-speech-in-philly-volume",
   episodeDisplay: "417",
   date: "8/17/2023",
   category: "Media & Culture",
@@ -6684,6 +7019,7 @@ const DOCUMENTARIES = [
 {
   title: "Russell Brand: In Plain Sight",
   episode: 421,
+  substackUrl: "https://www.wethefifth.com/p/421-beetlejuice-beetlejuice-beetlejuice",
   episodeDisplay: "421",
   date: "9/17/2023",
   category: "Media & Culture",
@@ -6705,6 +7041,7 @@ const DOCUMENTARIES = [
 {
   title: "Hollywood Censored: Movies, Morality & the Production Code",
   episode: 181,
+  substackUrl: "https://www.wethefifth.com/p/episode-181-w-zaid-jilani-coleman-055",
   episodeDisplay: "MO #181",
   date: "9/19/2023",
   category: "Media & Culture",
@@ -6726,6 +7063,7 @@ const DOCUMENTARIES = [
 {
   title: "Hollywood vs Religion",
   episode: 181,
+  substackUrl: "https://www.wethefifth.com/p/episode-181-w-zaid-jilani-coleman-055",
   episodeDisplay: "MO #181",
   date: "9/19/2023",
   category: "Media & Culture",
@@ -6747,6 +7085,7 @@ const DOCUMENTARIES = [
 {
   title: "The Presidents",
   episode: 181,
+  substackUrl: "https://www.wethefifth.com/p/episode-181-w-zaid-jilani-coleman-055",
   episodeDisplay: "MO #181",
   date: "9/19/2023",
   category: "US History",
@@ -6768,6 +7107,7 @@ const DOCUMENTARIES = [
 {
   title: "Red Hollywood",
   episode: 181,
+  substackUrl: "https://www.wethefifth.com/p/episode-181-w-zaid-jilani-coleman-055",
   episodeDisplay: "MO #181",
   date: "9/19/2023",
   category: "Media & Culture",
@@ -6789,6 +7129,7 @@ const DOCUMENTARIES = [
 {
   title: "The Plot to Kill the Pope",
   episode: 182,
+  substackUrl: null,
   episodeDisplay: "MO #182",
   date: "9/25/2023",
   category: "International Politics",
@@ -6810,6 +7151,7 @@ const DOCUMENTARIES = [
 {
   title: "Ordinary Men: The Forgotten Holocaust",
   episode: 184,
+  substackUrl: null,
   episodeDisplay: "MO #184",
   date: "10/10/2023",
   category: "International Politics",
@@ -6831,6 +7173,7 @@ const DOCUMENTARIES = [
 {
   title: "Netanyahu at War",
   episode: 186,
+  substackUrl: null,
   episodeDisplay: "MO #186",
   date: "10/25/2023",
   category: "International Politics",
@@ -6852,6 +7195,7 @@ const DOCUMENTARIES = [
 {
   title: "In the Face of Evil: Reagan's War in Word and Deed",
   episode: 429,
+  substackUrl: "https://www.wethefifth.com/p/429-the-kevin-hart-resource-curse",
   episodeDisplay: "429",
   date: "11/11/2023",
   category: "US Politics",
@@ -6873,6 +7217,7 @@ const DOCUMENTARIES = [
 {
   title: "Fall of Minneapolis",
   episode: 432,
+  substackUrl: "https://www.wethefifth.com/p/432-worse-than-hitler-a-fifth-column",
   episodeDisplay: "432",
   date: "11/23/2023",
   category: "Race & Society",
@@ -6894,6 +7239,7 @@ const DOCUMENTARIES = [
 {
   title: "Jackie Robinson",
   episode: 432,
+  substackUrl: "https://www.wethefifth.com/p/432-worse-than-hitler-a-fifth-column",
   episodeDisplay: "432",
   date: "11/23/2023",
   category: "Sports",
@@ -6915,6 +7261,7 @@ const DOCUMENTARIES = [
 {
   title: "Muhammad Ali",
   episode: 432,
+  substackUrl: "https://www.wethefifth.com/p/432-worse-than-hitler-a-fifth-column",
   episodeDisplay: "432",
   date: "11/23/2023",
   category: "Sports",
@@ -6936,6 +7283,7 @@ const DOCUMENTARIES = [
 {
   title: "Rupert Murdoch's War on Journalism",
   episode: 432,
+  substackUrl: "https://www.wethefifth.com/p/432-worse-than-hitler-a-fifth-column",
   episodeDisplay: "432",
   date: "11/23/2023",
   category: "Media & Culture",
@@ -6957,6 +7305,7 @@ const DOCUMENTARIES = [
 {
   title: "Shattered Dreams of Peace",
   episode: 434,
+  substackUrl: "https://www.wethefifth.com/p/434-crazed-conspiracies-moral-mulligans",
   episodeDisplay: "434",
   date: "12/7/2023",
   category: "International Politics",
@@ -6978,6 +7327,7 @@ const DOCUMENTARIES = [
 {
   title: "Control Room",
   episode: 192,
+  substackUrl: "https://www.wethefifth.com/p/192-w-jane-coaston-one-night-in-tulsa-bd2",
   episodeDisplay: "MO #192",
   date: "12/17/2023",
   category: "International Politics",
@@ -6999,6 +7349,7 @@ const DOCUMENTARIES = [
 {
   title: "Floyd Norman: An Animated Life",
   episode: 192,
+  substackUrl: "https://www.wethefifth.com/p/192-w-jane-coaston-one-night-in-tulsa-bd2",
   episodeDisplay: "MO #192",
   date: "12/17/2023",
   category: "Media & Culture",
@@ -7020,6 +7371,7 @@ const DOCUMENTARIES = [
 {
   title: "Thriller 40",
   episode: 198,
+  substackUrl: "https://www.wethefifth.com/p/198-w-nancy-rommelmann-theres-a-riot-47b",
   episodeDisplay: "MO #198",
   date: "1/29/2024",
   category: "Music",
@@ -7040,6 +7392,7 @@ const DOCUMENTARIES = [
 {
   title: "A Compassionate Spy",
   episode: 198,
+  substackUrl: "https://www.wethefifth.com/p/198-w-nancy-rommelmann-theres-a-riot-47b",
   episodeDisplay: "MO #198",
   date: "1/29/2024",
   category: "US History",
@@ -7061,6 +7414,7 @@ const DOCUMENTARIES = [
 {
   title: "Stamped from the Beginning",
   episode: 199,
+  substackUrl: null,
   episodeDisplay: "MO #199",
   date: "2/9/2024",
   category: "Race & Society",
@@ -7082,6 +7436,7 @@ const DOCUMENTARIES = [
 {
   title: "Disbelief",
   episode: 200,
+  substackUrl: "https://www.wethefifth.com/p/200-w-andrew-sullivan-uncancellable-b22",
   episodeDisplay: "MO #200",
   date: "2/13/2024",
   category: "International Politics",
@@ -7103,6 +7458,7 @@ const DOCUMENTARIES = [
 {
   title: "20 Days in Mariupol",
   episode: 200,
+  substackUrl: "https://www.wethefifth.com/p/200-w-andrew-sullivan-uncancellable-b22",
   episodeDisplay: "MO #200",
   date: "2/13/2024",
   category: "International Politics",
@@ -7124,6 +7480,7 @@ const DOCUMENTARIES = [
 {
   title: "Athens, GA: Inside/Out",
   episode: 202,
+  substackUrl: "https://www.wethefifth.com/p/202-w-tina-nguyen-trump-on-twitch-7a1",
   episodeDisplay: "MO #202",
   date: "2/26/2024",
   category: "Music",
@@ -7145,6 +7502,7 @@ const DOCUMENTARIES = [
 {
   title: "Blackfish",
   episode: 444,
+  substackUrl: "https://www.wethefifth.com/p/444-we-sell-sanctuary",
   episodeDisplay: "444",
   date: "3/1/2024",
   category: "Media & Culture",
@@ -7166,6 +7524,7 @@ const DOCUMENTARIES = [
 {
   title: "Putin: A Russian Spy Story",
   episode: 444,
+  substackUrl: "https://www.wethefifth.com/p/444-we-sell-sanctuary",
   episodeDisplay: "444",
   date: "3/1/2024",
   category: "International Politics",
@@ -7187,6 +7546,7 @@ const DOCUMENTARIES = [
 {
   title: "Putin vs the West",
   episode: 444,
+  substackUrl: "https://www.wethefifth.com/p/444-we-sell-sanctuary",
   episodeDisplay: "444",
   date: "3/1/2024",
   category: "International Politics",
@@ -7208,6 +7568,7 @@ const DOCUMENTARIES = [
 {
   title: "Putin vs the West: At War",
   episode: 444,
+  substackUrl: "https://www.wethefifth.com/p/444-we-sell-sanctuary",
   episodeDisplay: "444",
   date: "3/1/2024",
   category: "International Politics",
@@ -7229,6 +7590,7 @@ const DOCUMENTARIES = [
 {
   title: "I Am Gary Johnson",
   episode: 206,
+  substackUrl: null,
   episodeDisplay: "MO #206",
   date: "4/8/2024",
   category: "US Politics",
@@ -7250,6 +7612,7 @@ const DOCUMENTARIES = [
 {
   title: "Paul Robeson: Tribute to an Artist",
   episode: 206,
+  substackUrl: null,
   episodeDisplay: "MO #206",
   date: "4/8/2024",
   category: "Race & Society",
@@ -7271,6 +7634,7 @@ const DOCUMENTARIES = [
 {
   title: "The People Vs OJ Simpson",
   episode: 450,
+  substackUrl: "https://www.wethefifth.com/p/450-republican-wine-moms-and-a-dead",
   episodeDisplay: "450",
   date: "4/12/2024",
   category: "Crime",
@@ -7292,6 +7656,7 @@ const DOCUMENTARIES = [
 {
   title: "The Incomparable Mr. Buckley",
   episode: 207,
+  substackUrl: "https://www.wethefifth.com/p/207-hunters-laptop-ordinary-corruption-573",
   episodeDisplay: "MO #207",
   date: "4/22/2024",
   category: "Media & Culture",
@@ -7313,6 +7678,7 @@ const DOCUMENTARIES = [
 {
   title: "The Roosevelts: An Intimate History",
   episode: 207,
+  substackUrl: "https://www.wethefifth.com/p/207-hunters-laptop-ordinary-corruption-573",
   episodeDisplay: "MO #207",
   date: "4/22/2024",
   category: "US History",
@@ -7334,6 +7700,7 @@ const DOCUMENTARIES = [
 {
   title: "Brandy Hellville & the Cult of Fast Fashion",
   episode: 452,
+  substackUrl: "https://www.wethefifth.com/p/452-the-strawberry-statement-2024",
   episodeDisplay: "452",
   date: "4/25/2024",
   category: "Economics / Business",
@@ -7355,6 +7722,7 @@ const DOCUMENTARIES = [
 {
   title: "American Conspiracy: Octopus Murders",
   episode: 208,
+  substackUrl: null,
   episodeDisplay: "MO #208",
   date: "4/30/2024",
   category: "US Politics",
@@ -7376,6 +7744,7 @@ const DOCUMENTARIES = [
 {
   title: "American Masters: Roberta Flack",
   episode: 453,
+  substackUrl: "https://www.wethefifth.com/p/453-no-step-on-snek",
   episodeDisplay: "453",
   date: "5/3/2024",
   category: "Music",
@@ -7397,6 +7766,7 @@ const DOCUMENTARIES = [
 {
   title: "The UnRedacted",
   episode: 453,
+  substackUrl: "https://www.wethefifth.com/p/453-no-step-on-snek",
   episodeDisplay: "453",
   date: "5/3/2024",
   category: "International Politics",
@@ -7418,6 +7788,7 @@ const DOCUMENTARIES = [
 {
   title: "Cabal in Kabul",
   episode: 209,
+  substackUrl: null,
   episodeDisplay: "MO #209",
   date: "5/6/2024",
   category: "International Politics",
@@ -7439,6 +7810,7 @@ const DOCUMENTARIES = [
 {
   title: "Spacey Unmasked",
   episode: 209,
+  substackUrl: null,
   episodeDisplay: "MO #209",
   date: "5/6/2024",
   category: "Crime",
@@ -7460,6 +7832,7 @@ const DOCUMENTARIES = [
 {
   title: "Loudquietloud",
   episode: 210,
+  substackUrl: null,
   episodeDisplay: "MO #210",
   date: "5/14/2024",
   category: "Music",
@@ -7481,6 +7854,7 @@ const DOCUMENTARIES = [
 {
   title: "Chicken Hawk: Men Who Love Boys",
   episode: 211,
+  substackUrl: null,
   episodeDisplay: "MO #211",
   date: "5/27/2024",
   category: "Race & Society",
@@ -7502,6 +7876,7 @@ const DOCUMENTARIES = [
 {
   title: "Nazis: Evil on Trial",
   episode: 459,
+  substackUrl: "https://www.wethefifth.com/p/459-the-horns-of-hamas-gentlemen",
   episodeDisplay: "459",
   date: "6/14/2024",
   category: "International Politics",
@@ -7523,6 +7898,7 @@ const DOCUMENTARIES = [
 {
   title: "TMZ Presents: Under Fire – The Trump Assassination Attempt",
   episode: 466,
+  substackUrl: "https://www.wethefifth.com/p/439-the-return-of-the-sexiest-guest",
   episodeDisplay: "466",
   date: "8/9/2024",
   category: "US Politics",
@@ -7543,6 +7919,7 @@ const DOCUMENTARIES = [
 {
   title: "Nothin' But A Good Time: The Uncensored Story of 80's Hair Metal",
   episode: 226,
+  substackUrl: "https://www.wethefifth.com/p/226-w-matt-taibbi-why-journalism-d04",
   episodeDisplay: "MO #226",
   date: "9/21/2024",
   category: "Music",
@@ -7564,6 +7941,7 @@ const DOCUMENTARIES = [
 {
   title: "Untold: Malice at the Palace",
   episode: 227,
+  substackUrl: "https://www.wethefifth.com/p/227-w-ben-smith-sign-o-the-times-3aa",
   episodeDisplay: "MO #227",
   date: "9/29/2024",
   category: "Sports",
@@ -7585,6 +7963,7 @@ const DOCUMENTARIES = [
 {
   title: "Amanda Knox",
   episode: 228,
+  substackUrl: null,
   episodeDisplay: "MO #228",
   date: "10/8/2024",
   category: "Crime",
@@ -7606,6 +7985,7 @@ const DOCUMENTARIES = [
 {
   title: "Charlie Hu$tle & the Matter of Pete Rose",
   episode: 228,
+  substackUrl: null,
   episodeDisplay: "MO #228",
   date: "10/8/2024",
   category: "Sports",
@@ -7627,6 +8007,7 @@ const DOCUMENTARIES = [
 {
   title: "The Menendez Brothers",
   episode: 229,
+  substackUrl: null,
   episodeDisplay: "MO #229",
   date: "10/15/2024",
   category: "Crime",
@@ -7648,6 +8029,7 @@ const DOCUMENTARIES = [
 {
   title: "Menudo: Forever Young",
   episode: 229,
+  substackUrl: null,
   episodeDisplay: "MO #229",
   date: "10/15/2024",
   category: "Music",
@@ -7669,6 +8051,7 @@ const DOCUMENTARIES = [
 {
   title: "Menendez + Menudo: Boys Betrayed",
   episode: 229,
+  substackUrl: null,
   episodeDisplay: "MO #229",
   date: "10/15/2024",
   category: "Race & Society",
@@ -7690,6 +8073,7 @@ const DOCUMENTARIES = [
 {
   title: "The Source Family",
   episode: 230,
+  substackUrl: null,
   episodeDisplay: "MO #230",
   date: "10/22/2024",
   category: "Media & Culture",
@@ -7711,6 +8095,7 @@ const DOCUMENTARIES = [
 {
   title: "The War of 1812",
   episode: 231,
+  substackUrl: null,
   episodeDisplay: "MO #231",
   date: "10/28/2024",
   category: "US History",
@@ -7732,6 +8117,7 @@ const DOCUMENTARIES = [
 {
   title: "Queerstralia",
   episode: 231,
+  substackUrl: null,
   episodeDisplay: "MO #231",
   date: "10/28/2024",
   category: "Race & Society",
@@ -7753,6 +8139,7 @@ const DOCUMENTARIES = [
 {
   title: "Thomas Jefferson",
   episode: 477,
+  substackUrl: "https://www.wethefifth.com/p/477-the-bubble-the-brother-the-boycott",
   episodeDisplay: "477",
   date: "10/30/2024",
   category: "US History",
@@ -7774,6 +8161,7 @@ const DOCUMENTARIES = [
 {
   title: "From Textile Town to Ghost Town to Car Town: West Point, Georgia",
   episode: 479,
+  substackUrl: "https://www.wethefifth.com/p/479-the-case-against-tariffs-w-scott",
   episodeDisplay: "479",
   date: "11/13/2024",
   category: "Economics / Business",
@@ -7795,6 +8183,7 @@ const DOCUMENTARIES = [
 {
   title: "More than Just a 'Cheap T-Shirt': Guatemala Textiles",
   episode: 479,
+  substackUrl: "https://www.wethefifth.com/p/479-the-case-against-tariffs-w-scott",
   episodeDisplay: "479",
   date: "11/13/2024",
   category: "Economics / Business",
@@ -7816,6 +8205,7 @@ const DOCUMENTARIES = [
 {
   title: "Globalization for Fun and Profit: The Digital Gaming Economy",
   episode: 479,
+  substackUrl: "https://www.wethefifth.com/p/479-the-case-against-tariffs-w-scott",
   episodeDisplay: "479",
   date: "11/13/2024",
   category: "Economics / Business",
@@ -7837,6 +8227,7 @@ const DOCUMENTARIES = [
 {
   title: "The Other Half of the Sky: A China Memoir",
   episode: 235,
+  substackUrl: null,
   episodeDisplay: "MO #235",
   date: "11/16/2024",
   category: "International Politics",
@@ -7858,6 +8249,7 @@ const DOCUMENTARIES = [
 {
   title: "Cold Case: Who Killed JonBenet Ramsey",
   episode: 239,
+  substackUrl: null,
   episodeDisplay: "MO #239",
   date: "12/2/2024",
   category: "Crime",
@@ -7879,6 +8271,7 @@ const DOCUMENTARIES = [
 {
   title: "Dronez: The Hunt for El Chingon",
   episode: 241,
+  substackUrl: null,
   episodeDisplay: "MO #241",
   date: "12/16/2024",
   category: "Sports",
@@ -7900,6 +8293,7 @@ const DOCUMENTARIES = [
 {
   title: "When We Were Kings",
   episode: 241,
+  substackUrl: null,
   episodeDisplay: "MO #241",
   date: "12/16/2024",
   category: "Sports",
@@ -7921,6 +8315,7 @@ const DOCUMENTARIES = [
 {
   title: "Churchill at War",
   episode: 483,
+  substackUrl: "https://www.wethefifth.com/p/483-the-christmas-cromnibus-and-a",
   episodeDisplay: "483",
   date: "12/20/2024",
   category: "International Politics",
@@ -7942,6 +8337,7 @@ const DOCUMENTARIES = [
 {
   title: "For All Mankind",
   episode: 242,
+  substackUrl: null,
   episodeDisplay: "MO #242",
   date: "12/29/2024",
   category: "Science & Technology",
@@ -7963,6 +8359,7 @@ const DOCUMENTARIES = [
 {
   title: "Don't Look Back",
   episode: 242,
+  substackUrl: null,
   episodeDisplay: "MO #242",
   date: "12/29/2024",
   category: "Media & Culture",
@@ -7984,6 +8381,7 @@ const DOCUMENTARIES = [
 {
   title: "For All Humankind",
   episode: 242,
+  substackUrl: null,
   episodeDisplay: "MO #242",
   date: "12/29/2024",
   category: "Science & Technology",
@@ -8005,6 +8403,7 @@ const DOCUMENTARIES = [
 {
   title: "Radical Wolfe",
   episode: 243,
+  substackUrl: null,
   episodeDisplay: "MO #243",
   date: "1/6/2025",
   category: "Media & Culture",
@@ -8026,6 +8425,7 @@ const DOCUMENTARIES = [
 {
   title: "A Private Libertarian City in Honduras",
   episode: 244,
+  substackUrl: null,
   episodeDisplay: "MO #244",
   date: "1/15/2025",
   category: "International Politics",
@@ -8047,6 +8447,7 @@ const DOCUMENTARIES = [
 {
   title: "One Day in September",
   episode: 486,
+  substackUrl: "https://www.wethefifth.com/p/486-a-deal-with-the-devil-melaniacoin",
   episodeDisplay: "486",
   date: "1/16/2025",
   category: "Sports",
@@ -8068,6 +8469,7 @@ const DOCUMENTARIES = [
 {
   title: "Washington",
   episode: 246,
+  substackUrl: null,
   episodeDisplay: "MO #246",
   date: "1/27/2025",
   category: "US History",
@@ -8089,6 +8491,7 @@ const DOCUMENTARIES = [
 {
   title: "Medical Racism: The New Apartheid",
   episode: 250,
+  substackUrl: null,
   episodeDisplay: "MO #250",
   date: "3/3/2025",
   category: "Race & Society",
@@ -8109,6 +8512,7 @@ const DOCUMENTARIES = [
 {
   title: "Chaos: The Manson Murders",
   episode: 253,
+  substackUrl: null,
   episodeDisplay: "MO #253",
   date: "3/18/2025",
   category: "Crime",
@@ -8130,6 +8534,7 @@ const DOCUMENTARIES = [
 {
   title: "Werner Herzog Eats His Shoe",
   episode: 253,
+  substackUrl: null,
   episodeDisplay: "MO #253",
   date: "3/18/2025",
   category: "Media & Culture",
@@ -8151,6 +8556,7 @@ const DOCUMENTARIES = [
 {
   title: "All In This Tea",
   episode: 253,
+  substackUrl: null,
   episodeDisplay: "MO #253",
   date: "3/18/2025",
   category: "Media & Culture",
@@ -8172,6 +8578,7 @@ const DOCUMENTARIES = [
 {
   title: "Chulas Fronteras",
   episode: 253,
+  substackUrl: null,
   episodeDisplay: "MO #253",
   date: "3/18/2025",
   category: "Music",
@@ -8193,6 +8600,7 @@ const DOCUMENTARIES = [
 {
   title: "Always for Pleasure",
   episode: 253,
+  substackUrl: null,
   episodeDisplay: "MO #253",
   date: "3/18/2025",
   category: "Music",
@@ -8214,6 +8622,7 @@ const DOCUMENTARIES = [
 {
   title: "Hoop Dreams",
   episode: 253,
+  substackUrl: null,
   episodeDisplay: "MO #253",
   date: "3/18/2025",
   category: "Sports",
@@ -8235,6 +8644,7 @@ const DOCUMENTARIES = [
 {
   title: "Beatles '64",
   episode: 496,
+  substackUrl: "https://www.wethefifth.com/p/496-ich-bin-ein-disappointed-konspiracy",
   episodeDisplay: "496",
   date: "3/19/2025",
   category: "Music",
@@ -8256,6 +8666,7 @@ const DOCUMENTARIES = [
 {
   title: "American Murder: Gabby Petito",
   episode: 254,
+  substackUrl: null,
   episodeDisplay: "MO #254",
   date: "3/31/2025",
   category: "US History",
@@ -8277,6 +8688,7 @@ const DOCUMENTARIES = [
 {
   title: "Heart of Darkness: A Filmmaker's Apocalypse",
   episode: 255,
+  substackUrl: null,
   episodeDisplay: "MO #255",
   date: "4/7/2025",
   category: "Media & Culture",
@@ -8298,6 +8710,7 @@ const DOCUMENTARIES = [
 {
   title: "David Bowie: Five Years",
   episode: 257,
+  substackUrl: null,
   episodeDisplay: "MO #257",
   date: "4/22/2025",
   category: "Music",
@@ -8319,6 +8732,7 @@ const DOCUMENTARIES = [
 {
   title: "David Bowie: The Last Five Years",
   episode: 257,
+  substackUrl: null,
   episodeDisplay: "MO #257",
   date: "4/22/2025",
   category: "Music",
@@ -8340,6 +8754,7 @@ const DOCUMENTARIES = [
 {
   title: "David Bowie: The First Five Years",
   episode: 257,
+  substackUrl: null,
   episodeDisplay: "MO #257",
   date: "4/22/2025",
   category: "Music",
@@ -8361,6 +8776,7 @@ const DOCUMENTARIES = [
 {
   title: "Kurt & Courtney",
   episode: 506,
+  substackUrl: "https://www.wethefifth.com/p/506-kill-the-white-people",
   episodeDisplay: "506",
   date: "5/22/2025",
   category: "Music",
@@ -8382,6 +8798,7 @@ const DOCUMENTARIES = [
 {
   title: "The Leader, His Driver and the Driver's Wife",
   episode: 506,
+  substackUrl: "https://www.wethefifth.com/p/506-kill-the-white-people",
   episodeDisplay: "506",
   date: "5/22/2025",
   category: "International Politics",
@@ -8403,6 +8820,7 @@ const DOCUMENTARIES = [
 {
   title: "June 17th, 1994",
   episode: 251,
+  substackUrl: null,
   episodeDisplay: "MO #251",
   date: "5/28/2025",
   category: "Sports",
@@ -8424,6 +8842,7 @@ const DOCUMENTARIES = [
 {
   title: "Pee-Wee as Himself",
   episode: 507,
+  substackUrl: "https://www.wethefifth.com/p/507-trans-pee-wee-and-tariffed-dresses",
   episodeDisplay: "507",
   date: "5/30/2025",
   category: "Media & Culture",
@@ -8445,6 +8864,7 @@ const DOCUMENTARIES = [
 {
   title: "Above and Beyond: The Birth of the Israeli Air Force",
   episode: 507,
+  substackUrl: "https://www.wethefifth.com/p/507-trans-pee-wee-and-tariffed-dresses",
   episodeDisplay: "507",
   date: "5/30/2025",
   category: "International Politics",
@@ -8466,6 +8886,7 @@ const DOCUMENTARIES = [
 {
   title: "ABBA: Against the Odds",
   episode: 252,
+  substackUrl: null,
   episodeDisplay: "MO #252",
   date: "6/2/2025",
   category: "Music",
@@ -8487,6 +8908,7 @@ const DOCUMENTARIES = [
 {
   title: "Brian Wilson: I Just Wasn't Made for These Times",
   episode: 263,
+  substackUrl: null,
   episodeDisplay: "MO #263",
   date: "6/19/2025",
   category: "Music",
@@ -8508,6 +8930,7 @@ const DOCUMENTARIES = [
 {
   title: "Black Power Mixtape",
   episode: 511,
+  substackUrl: "https://www.wethefifth.com/p/511-iran-on-the-brink-nyc-on-the",
   episodeDisplay: "511",
   date: "6/19/2025",
   category: "Race & Society",
@@ -8529,6 +8952,7 @@ const DOCUMENTARIES = [
 {
   title: "State Funeral",
   episode: 511,
+  substackUrl: "https://www.wethefifth.com/p/511-iran-on-the-brink-nyc-on-the",
   episodeDisplay: "511",
   date: "6/19/2025",
   category: "International Politics",
@@ -8550,6 +8974,7 @@ const DOCUMENTARIES = [
 {
   title: "Here to Be Heard: The Story of the Slits",
   episode: 513,
+  substackUrl: "https://www.wethefifth.com/p/513-birthright-jamaican-babies-and",
   episodeDisplay: "513",
   date: "6/30/2025",
   category: "Music",
@@ -8571,6 +8996,7 @@ const DOCUMENTARIES = [
 {
   title: "The Prince and The Epstein Scandal",
   episode: 517,
+  substackUrl: "https://www.wethefifth.com/p/517-pimp-o-nomics-how-i-learned-to",
   episodeDisplay: "517",
   date: "8/2/2025",
   category: "Crime",
@@ -8592,6 +9018,7 @@ const DOCUMENTARIES = [
 {
   title: "Billy Joel: And So It Goes",
   episode: 269,
+  substackUrl: null,
   episodeDisplay: "MO #269",
   date: "8/4/2025",
   category: "Music",
@@ -8613,6 +9040,7 @@ const DOCUMENTARIES = [
 {
   title: "Bukowski",
   episode: 270,
+  substackUrl: null,
   episodeDisplay: "MO #270",
   date: "8/6/2025",
   category: "Media & Culture",
@@ -8634,6 +9062,7 @@ const DOCUMENTARIES = [
 {
   title: "Capturing the Friedmans",
   episode: 271,
+  substackUrl: null,
   episodeDisplay: "MO #271",
   date: "8/13/2025",
   category: "Crime",
@@ -8654,6 +9083,7 @@ const DOCUMENTARIES = [
 {
   title: "Just A Clown",
   episode: 271,
+  substackUrl: null,
   episodeDisplay: "MO #271",
   date: "8/13/2025",
   category: "Media & Culture",
@@ -8674,6 +9104,7 @@ const DOCUMENTARIES = [
 {
   title: "A Body in the Snow: The Trial of Karen Read",
   episode: 271,
+  substackUrl: null,
   episodeDisplay: "MO #271",
   date: "8/13/2025",
   category: "Crime",
@@ -8695,6 +9126,7 @@ const DOCUMENTARIES = [
 {
   title: "Dancing Outlaw",
   episode: 519,
+  substackUrl: "https://www.wethefifth.com/p/519-creed-crimea-crimeand-a-city",
   episodeDisplay: "519",
   date: "8/14/2025",
   category: "Media & Culture",
@@ -8715,6 +9147,7 @@ const DOCUMENTARIES = [
 {
   title: "Don't Panic",
   episode: 272,
+  substackUrl: null,
   episodeDisplay: "MO #272",
   date: "8/18/2025",
   category: "Media & Culture",
@@ -8735,6 +9168,7 @@ const DOCUMENTARIES = [
 {
   title: "The Wild and Wonderful Whites of West Virginia",
   episode: 272,
+  substackUrl: null,
   episodeDisplay: "MO #272",
   date: "8/18/2025",
   category: "Media & Culture",
@@ -8756,6 +9190,7 @@ const DOCUMENTARIES = [
 {
   title: "9/11 Files",
   episode: 277,
+  substackUrl: null,
   episodeDisplay: "MO #277",
   date: "9/27/2025",
   category: "US History",
@@ -8777,6 +9212,7 @@ const DOCUMENTARIES = [
 {
   title: "In Whose Name",
   episode: 277,
+  substackUrl: null,
   episodeDisplay: "MO #277",
   date: "9/27/2025",
   category: "Music",
@@ -8798,6 +9234,7 @@ const DOCUMENTARIES = [
 {
   title: "U.N. Me",
   episode: 524,
+  substackUrl: "https://www.wethefifth.com/p/524-btw-venezuela-is-a-dictatorial",
   episodeDisplay: "524",
   date: "9/18/2025",
   category: "International Politics",
@@ -8819,6 +9256,7 @@ const DOCUMENTARIES = [
 {
   title: "Katrina: Come Hell and High Water",
   episode: 274,
+  substackUrl: null,
   episodeDisplay: "MO #274",
   date: "9/6/2025",
   category: "US History",
@@ -8839,6 +9277,7 @@ const DOCUMENTARIES = [
 {
   title: "Look Mom I Can Fly",
   episode: 279,
+  substackUrl: null,
   episodeDisplay: "MO #279",
   date: "10/5/2025",
   category: "Music",
@@ -8860,6 +9299,7 @@ const DOCUMENTARIES = [
 {
   title: "The Hugo Chavez Show",
   episode: 280,
+  substackUrl: null,
   episodeDisplay: "MO #280",
   date: "10/11/2025",
   category: "International Politics",
@@ -8881,6 +9321,7 @@ const DOCUMENTARIES = [
 {
   title: "Deep Web",
   episode: 274,
+  substackUrl: null,
   episodeDisplay: "MO #274",
   date: "9/6/2025",
   category: "Media & Culture",
@@ -8901,6 +9342,7 @@ const DOCUMENTARIES = [
 {
   title: "Cover-Up",
   episode: 289,
+  substackUrl: null,
   episodeDisplay: "MO #289",
   date: "12/2/2025",
   category: "Media & Culture",
@@ -8922,6 +9364,7 @@ const DOCUMENTARIES = [
 {
   title: "Sean Combs: The Reckoning",
   episode: 290,
+  substackUrl: null,
   episodeDisplay: "MO #290",
   date: "12/9/2025",
   category: "Media & Culture",
@@ -8943,6 +9386,7 @@ const DOCUMENTARIES = [
 {
   title: "Which Way is the Frontline From Here? The Life and Time of Tim Hetherington",
   episode: 286,
+  substackUrl: null,
   episodeDisplay: "MO #286",
   date: "11/18/2025",
   category: "International Politics",
@@ -8964,6 +9408,7 @@ const DOCUMENTARIES = [
 {
   title: "Restrepo",
   episode: 286,
+  substackUrl: null,
   episodeDisplay: "MO #286",
   date: "11/18/2025",
   category: "International Politics",
@@ -8985,6 +9430,7 @@ const DOCUMENTARIES = [
 {
   title: "US vs John Lennon",
   episode: 532,
+  substackUrl: "https://www.wethefifth.com/p/532-trini-and-the-rainbow-coalition",
   episodeDisplay: "532",
   date: "11/13/2024",
   category: "Music",
@@ -9006,6 +9452,7 @@ const DOCUMENTARIES = [
 {
   title: "Melania",
   episode: 536,
+  substackUrl: "https://www.wethefifth.com/p/black-irish-ice-queens-and-body-snatchers",
   episodeDisplay: "#536",
   date: "12/18/2025",
   category: "Media & Culture",
@@ -9027,6 +9474,7 @@ const DOCUMENTARIES = [
 {
   title: "The Most Hated Family in America",
   episode: 291,
+  substackUrl: null,
   episodeDisplay: "MO #291",
   date: "12/16/2025",
   category: "US History",
@@ -9048,6 +9496,7 @@ const DOCUMENTARIES = [
 {
   title: "Forbidden America",
   episode: 291,
+  substackUrl: null,
   episodeDisplay: "MO #291",
   date: "12/16/2025",
   category: "US History",
@@ -9069,6 +9518,7 @@ const DOCUMENTARIES = [
 {
   title: "Suburban Fury",
   episode: 536,
+  substackUrl: "https://www.wethefifth.com/p/black-irish-ice-queens-and-body-snatchers",
   episodeDisplay: "MO #536",
   date: "12/11/2025",
   category: "US History",
@@ -9105,6 +9555,86 @@ function updateStats() {
         statsNumbers[3].textContent = '100%';
     }
 }
+
+// Helper function - returns null if no explicit URL provided
+// Substack URLs have title slugs, so they must be looked up from fifth.rocks
+function getSubstackUrl(episodeStr, explicitUrl) {
+    if (explicitUrl) return explicitUrl;
+    return null; // URLs must be explicitly provided - can't be auto-generated
+}
+
+// Helper function to render extra episodes with hoverable quotes
+function renderExtraEpisodes(extraEpisodesStr, extraMentions) {
+    if (!extraEpisodesStr) return '';
+    
+    const episodes = extraEpisodesStr.split(',').map(ep => ep.trim());
+    const mentionsMap = {};
+    
+    // Build a map of episode -> quote data
+    if (extraMentions && Array.isArray(extraMentions)) {
+        extraMentions.forEach(mention => {
+            mentionsMap[mention.episode] = mention;
+        });
+    }
+    
+    const episodeLinks = episodes.map(ep => {
+        const mention = mentionsMap[ep];
+        const substackUrl = mention?.substackUrl;
+        
+        if (mention && mention.quote) {
+            // Has quote - show tooltip with quote
+            if (substackUrl) {
+                return `
+                    <span class="episode-link-container">
+                        <a href="${substackUrl}" target="_blank" class="episode-link" onclick="event.stopPropagation()">${ep}</a>
+                        <div class="episode-tooltip">
+                            <div class="tooltip-quote">${mention.quote}</div>
+                            <div class="tooltip-attribution">— ${mention.speaker || 'The Fifth Column'}</div>
+                        </div>
+                    </span>
+                `;
+            } else {
+                return `
+                    <span class="episode-link-container">
+                        <span class="episode-link" style="cursor: default;">${ep}</span>
+                        <div class="episode-tooltip">
+                            <div class="tooltip-quote">${mention.quote}</div>
+                            <div class="tooltip-attribution">— ${mention.speaker || 'The Fifth Column'}</div>
+                        </div>
+                    </span>
+                `;
+            }
+        } else if (substackUrl) {
+            // Has URL but no quote
+            return `
+                <span class="episode-link-container">
+                    <a href="${substackUrl}" target="_blank" class="episode-link" onclick="event.stopPropagation()">${ep}</a>
+                    <div class="episode-tooltip">
+                        <div class="tooltip-no-quote">Click to listen to this episode</div>
+                    </div>
+                </span>
+            `;
+        } else {
+            // No URL and no quote - just display episode number
+            return `
+                <span class="episode-link-container">
+                    <span class="episode-link episode-link-pending" style="color: #888; cursor: default;">${ep}</span>
+                    <div class="episode-tooltip">
+                        <div class="tooltip-no-quote">Episode link pending</div>
+                    </div>
+                </span>
+            `;
+        }
+    }).join('');
+    
+    return `
+        <p><strong>Also Mentioned In:</strong></p>
+        <div class="extra-episodes-container">
+            ${episodeLinks}
+        </div>
+    `;
+}
+
     function openModal(title) {
         console.log('openModal called with:', title);
         
@@ -9153,8 +9683,21 @@ ${doc.trailerUrl ? `
     <div class="detail-section">
         <div class="section-title">Episode Information</div>
         <p><strong>First Mentioned:</strong> Episode ${doc.episodeDisplay} (${doc.date})</p>
-        ${doc.extraEpisodes ? `<p><strong>Also Mentioned In:</strong> Episodes ${doc.extraEpisodes}</p>` : ''}
+        ${doc.quote ? `
+        <div class="quote-section">
+            <div class="quote-text">${doc.quote}</div>
+            <div class="quote-attribution">— <span class="speaker-name">${doc.speaker || 'The Fifth Column'}</span>, Episode ${doc.episodeDisplay}</div>
+        </div>
+        ` : ''}
+        ${doc.extraEpisodes ? renderExtraEpisodes(doc.extraEpisodes, doc.extraMentions) : ''}
         <p><strong>Total Mentions:</strong> ${doc.totalMentions}</p>
+        ${doc.substackUrl ? `
+        <div class="listen-section">
+            <a href="${doc.substackUrl}" target="_blank" class="doc-link substack-link" style="display: inline-block;">
+                🎧 Listen on Substack
+            </a>
+        </div>
+        ` : ''}
     </div>
     
     <div class="detail-section">
@@ -9644,6 +10187,7 @@ function showPage(pageName) {
                     <div class="doc-director">Directed by ${doc.director}</div>
                     <div class="doc-links">
     <a href="${doc.link}" target="_blank" class="doc-link" onclick="event.stopPropagation()">Watch/Info</a>
+    ${doc.substackUrl ? `<a href="${doc.substackUrl}" target="_blank" class="doc-link substack-link" onclick="event.stopPropagation()">🎧 Listen</a>` : ''}
     ${doc.reading1 ? `<a href="${doc.reading1}" target="_blank" class="doc-link reading-link" onclick="event.stopPropagation()">Reading</a>` : ''}
     ${doc.reading2 ? `<a href="${doc.reading2}" target="_blank" class="doc-link reading-link" onclick="event.stopPropagation()">More Reading</a>` : ''}
 </div>
