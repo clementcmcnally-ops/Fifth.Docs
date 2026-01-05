@@ -821,6 +821,361 @@
     background: #1a1a1a;
     border-radius: 4px;
 }
+
+/* Slot Machine Styles */
+.slot-machine-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.slot-machine {
+    background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+    border: 4px solid #FFD700;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3), inset 0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+.slot-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 15px;
+    background: linear-gradient(90deg, #8B0000, #DC143C, #8B0000);
+    border-radius: 10px;
+    border: 2px solid #FFD700;
+}
+
+.slot-lights {
+    font-size: 1.5rem;
+    animation: blink 0.5s infinite alternate;
+}
+
+@keyframes blink {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+.slot-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #FFD700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 3px;
+}
+
+.reels-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.reel {
+    background: #111;
+    border: 3px solid #FFD700;
+    border-radius: 15px;
+    padding: 10px;
+    width: 260px;
+}
+
+.reel-window {
+    height: 180px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    border-radius: 10px;
+    position: relative;
+    border: 2px solid #333;
+}
+
+.reel-window::before,
+.reel-window::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 40px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.reel-window::before {
+    top: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+}
+
+.reel-window::after {
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+
+.reel-strip {
+    transition: transform 0.1s ease-out;
+}
+
+.reel-item {
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    text-align: center;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    border-bottom: 1px solid #333;
+}
+
+.reel-item-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #FFD700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.reel-item-director {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 5px;
+}
+
+.reel-item-year {
+    font-size: 0.75rem;
+    color: #666;
+    background: #333;
+    padding: 3px 10px;
+    border-radius: 10px;
+}
+
+.reel-item-category {
+    font-size: 0.7rem;
+    color: #4CAF50;
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.reel-label {
+    text-align: center;
+    padding: 10px;
+    color: #FFD700;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+.spin-section {
+    text-align: center;
+    padding: 20px;
+}
+
+.spin-button {
+    background: linear-gradient(180deg, #DC143C 0%, #8B0000 100%);
+    border: 3px solid #FFD700;
+    border-radius: 50px;
+    padding: 20px 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(220, 20, 60, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.spin-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(220, 20, 60, 0.6);
+}
+
+.spin-button:active {
+    transform: scale(0.95);
+}
+
+.spin-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.spin-icon {
+    font-size: 2rem;
+}
+
+.spin-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #FFD700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 3px;
+}
+
+.spin-hint {
+    margin-top: 15px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.results-section {
+    margin-top: 40px;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.results-header-text {
+    text-align: center;
+    font-size: 2rem;
+    color: #FFD700;
+    margin-bottom: 10px;
+}
+
+.results-subtext {
+    text-align: center;
+    color: #999;
+    margin-bottom: 30px;
+}
+
+.slot-results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.slot-result-card {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    border: 2px solid #FFD700;
+    border-radius: 15px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: cardReveal 0.5s ease-out;
+}
+
+.slot-result-card:nth-child(1) { animation-delay: 0s; }
+.slot-result-card:nth-child(2) { animation-delay: 0.2s; }
+.slot-result-card:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes cardReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.8) rotateY(90deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotateY(0);
+    }
+}
+
+.slot-result-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+    border-color: #fff;
+}
+
+.slot-card-number {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.slot-card-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.slot-card-meta {
+    text-align: center;
+    color: #999;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+}
+
+.slot-card-category {
+    text-align: center;
+    background: #333;
+    color: #4CAF50;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.slot-card-mentions {
+    text-align: center;
+    margin-top: 10px;
+    color: #FFD700;
+    font-size: 0.8rem;
+}
+
+.spin-again-button {
+    display: block;
+    margin: 0 auto;
+    background: linear-gradient(180deg, #333 0%, #1a1a1a 100%);
+    border: 2px solid #FFD700;
+    border-radius: 30px;
+    padding: 15px 40px;
+    color: #FFD700;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.spin-again-button:hover {
+    background: linear-gradient(180deg, #444 0%, #2a2a2a 100%);
+    transform: scale(1.05);
+}
+
+/* Spinning animation */
+.spinning .reel-strip {
+    animation: spin 0.1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: translateY(0); }
+    to { transform: translateY(-180px); }
+}
+
+/* Responsive for slot machine */
+@media (max-width: 900px) {
+    .reels-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .reel {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .slot-results-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .slot-title {
+        font-size: 1.2rem;
+    }
+}
 </style>
 </head>
 <body>
@@ -838,6 +1193,9 @@
             </div>
             <div class="nav-tab" onclick="showPage('categories')">
                 <span class="tab-icon">📂</span>Categories
+            </div>
+            <div class="nav-tab" onclick="showPage('random-pick')">
+                <span class="tab-icon">🎰</span>Random Pick
             </div>
         </div>
 
@@ -1043,6 +1401,65 @@
                 </div>
                 <div id="categoriesGrid">
                     <!-- Category sections will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- RANDOM PICK PAGE (Slot Machine) -->
+        <div id="random-pick-page" class="page-section">
+            <header>
+                <div class="tfc-logo">
+    <img src="https://raw.githubusercontent.com/clementcmcnally-ops/Fifth.Docs/main/TFC%20Logo.png" alt="TFC Logo">
+</div>
+                <h1>🎰 RANDOM PICK</h1>
+                <p class="subtitle">Can't decide what to watch? Let fate choose for you!</p>
+            </header>
+
+            <div class="slot-machine-container">
+                <div class="slot-machine">
+                    <div class="slot-header">
+                        <span class="slot-lights">💡💡💡</span>
+                        <span class="slot-title">TFC DOCUMENTARY PICKER</span>
+                        <span class="slot-lights">💡💡💡</span>
+                    </div>
+                    
+                    <div class="reels-container">
+                        <div class="reel" id="reel1">
+                            <div class="reel-window">
+                                <div class="reel-strip" id="strip1"></div>
+                            </div>
+                            <div class="reel-label">PICK 1</div>
+                        </div>
+                        <div class="reel" id="reel2">
+                            <div class="reel-window">
+                                <div class="reel-strip" id="strip2"></div>
+                            </div>
+                            <div class="reel-label">PICK 2</div>
+                        </div>
+                        <div class="reel" id="reel3">
+                            <div class="reel-window">
+                                <div class="reel-strip" id="strip3"></div>
+                            </div>
+                            <div class="reel-label">PICK 3</div>
+                        </div>
+                    </div>
+
+                    <div class="spin-section">
+                        <button class="spin-button" id="spinButton" onclick="spinSlots()">
+                            <span class="spin-icon">🎬</span>
+                            <span class="spin-text">SPIN!</span>
+                        </button>
+                        <p class="spin-hint">Click to get 3 random documentary recommendations</p>
+                    </div>
+                </div>
+
+                <div class="results-section" id="slotResults" style="display: none;">
+                    <h2 class="results-header-text">🎉 Your Picks Are In! 🎉</h2>
+                    <p class="results-subtext">Click any card for more details</p>
+                    <div class="slot-results-grid" id="slotResultsGrid"></div>
+                    <button class="spin-again-button" onclick="spinSlots()">
+                        <span>🔄</span> Not feeling it? Spin Again!
+                    </button>
                 </div>
             </div>
         </div>
@@ -10757,6 +11174,8 @@ function showPage(pageName) {
         generateDirectorsPage();
     } else if (pageName === 'categories') {
         generateCategoriesPage();
+    } else if (pageName === 'random-pick') {
+        initSlotMachine();
     }
         }
 
@@ -10991,6 +11410,147 @@ ${director.films.length > 5 ? `<div class="director-film" style="color: #999; fo
                 `;
             }).join('');
         }
+
+// Slot Machine Functions
+let isSpinning = false;
+let selectedDocs = [];
+
+function initSlotMachine() {
+    // Initialize reels with random docs
+    populateReels();
+}
+
+function populateReels() {
+    const strips = ['strip1', 'strip2', 'strip3'];
+    
+    strips.forEach(stripId => {
+        const strip = document.getElementById(stripId);
+        if (!strip) return;
+        
+        // Create a shuffled copy for each reel
+        const shuffled = [...DOCUMENTARIES].sort(() => Math.random() - 0.5);
+        
+        strip.innerHTML = shuffled.slice(0, 20).map(doc => `
+            <div class="reel-item">
+                <div class="reel-item-title">${doc.title}</div>
+                <div class="reel-item-director">by ${doc.director}</div>
+                <div class="reel-item-year">${doc.year}</div>
+                <div class="reel-item-category">${doc.category}</div>
+            </div>
+        `).join('');
+    });
+}
+
+function spinSlots() {
+    if (isSpinning) return;
+    isSpinning = true;
+    
+    const spinButton = document.getElementById('spinButton');
+    spinButton.disabled = true;
+    
+    // Hide previous results
+    document.getElementById('slotResults').style.display = 'none';
+    
+    // Get 3 unique random documentaries
+    selectedDocs = getRandomDocs(3);
+    
+    // Repopulate reels with new random order but ensure selected docs are included
+    const strips = ['strip1', 'strip2', 'strip3'];
+    
+    strips.forEach((stripId, index) => {
+        const strip = document.getElementById(stripId);
+        const reel = strip.parentElement;
+        
+        // Create items with the selected doc at position 0
+        const otherDocs = DOCUMENTARIES.filter(d => d.title !== selectedDocs[index].title);
+        const shuffled = otherDocs.sort(() => Math.random() - 0.5).slice(0, 15);
+        const allDocs = [selectedDocs[index], ...shuffled];
+        
+        strip.innerHTML = allDocs.map(doc => `
+            <div class="reel-item">
+                <div class="reel-item-title">${doc.title}</div>
+                <div class="reel-item-director">by ${doc.director}</div>
+                <div class="reel-item-year">${doc.year}</div>
+                <div class="reel-item-category">${doc.category}</div>
+            </div>
+        `).join('');
+        
+        // Start spinning animation
+        reel.classList.add('spinning');
+        strip.style.transform = 'translateY(0)';
+    });
+    
+    // Stop reels one by one with delays
+    const stopDelays = [1500, 2200, 2900];
+    
+    strips.forEach((stripId, index) => {
+        setTimeout(() => {
+            stopReel(stripId, index);
+        }, stopDelays[index]);
+    });
+    
+    // Show results after all reels stop
+    setTimeout(() => {
+        showResults();
+        isSpinning = false;
+        spinButton.disabled = false;
+    }, 3200);
+}
+
+function stopReel(stripId, index) {
+    const strip = document.getElementById(stripId);
+    const reel = strip.parentElement;
+    
+    reel.classList.remove('spinning');
+    
+    // Animate to the first item (the selected doc)
+    strip.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+    strip.style.transform = 'translateY(0)';
+    
+    // Play a satisfying "click" effect
+    setTimeout(() => {
+        strip.style.transition = 'none';
+    }, 500);
+}
+
+function getRandomDocs(count) {
+    const shuffled = [...DOCUMENTARIES].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+}
+
+function showResults() {
+    const resultsSection = document.getElementById('slotResults');
+    const resultsGrid = document.getElementById('slotResultsGrid');
+    
+    const emojis = ['🥇', '🥈', '🥉'];
+    
+    resultsGrid.innerHTML = selectedDocs.map((doc, index) => `
+        <div class="slot-result-card" onclick="openModal('${doc.title.replace(/'/g, "\\'")}')">
+            <div class="slot-card-number">${emojis[index]}</div>
+            <div class="slot-card-title">${doc.title}</div>
+            <div class="slot-card-meta">by ${doc.director} (${doc.year})</div>
+            <div style="text-align: center;">
+                <span class="slot-card-category">${doc.category}</span>
+            </div>
+            <div class="slot-card-mentions">
+                ${doc.totalMentions} mention${doc.totalMentions !== 1 ? 's' : ''} on TFC
+            </div>
+        </div>
+    `).join('');
+    
+    resultsSection.style.display = 'block';
+    
+    // Scroll to results
+    setTimeout(() => {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+}
+
+// Initialize slot machine when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initSlotMachine, 100);
+});
+
 function debugChartData() {
     console.log("=== DEBUGGING CHART DATA ===");
     
