@@ -11403,9 +11403,21 @@ function showPage(pageName) {
             }
             
             const searchTerm = query.toLowerCase();
-            const filtered = currentDocumentaries.filter(doc => 
-                doc.searchableText.toLowerCase().includes(searchTerm)
+            const filtered = DOCUMENTARIES.filter(doc => 
+                doc.title.toLowerCase().includes(searchTerm) ||
+                doc.director.toLowerCase().includes(searchTerm) ||
+                doc.topic.toLowerCase().includes(searchTerm) ||
+                doc.category.toLowerCase().includes(searchTerm) ||
+                (doc.searchableText && doc.searchableText.toLowerCase().includes(searchTerm))
             );
+            
+            // Update results title to show search results
+            document.getElementById('resultsTitle').textContent = `Search Results: "${query}" (${filtered.length} found)`;
+            
+            // Clear filter button active states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
             
             renderDocumentaries(filtered);
         }
