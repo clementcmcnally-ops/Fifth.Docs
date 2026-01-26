@@ -1232,6 +1232,10 @@
                         <span class="stat-number">100%</span>
                         <span class="stat-label">Have Links</span>
                     </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="quotePercent">0%</span>
+                        <span class="stat-label">Have Quotes</span>
+                    </div>
                 </div>
             </header>
 
@@ -11054,6 +11058,35 @@ function updateStats() {
         statsNumbers[1].textContent = [...new Set(DOCUMENTARIES.map(d => d.category))].length;
         statsNumbers[2].textContent = [...new Set(DOCUMENTARIES.map(d => d.director))].length;
         statsNumbers[3].textContent = '100%';
+    }
+    
+    // Calculate quote percentage
+    let totalQuotes = 0;
+    let totalMentions = 0;
+    
+    DOCUMENTARIES.forEach(doc => {
+        // Add total mentions for this documentary
+        totalMentions += doc.totalMentions || 1;
+        
+        // Count main quote if present
+        if (doc.quote && doc.quote.trim() !== '') {
+            totalQuotes++;
+        }
+        
+        // Count quotes in extraMentions
+        if (doc.extraMentions && Array.isArray(doc.extraMentions)) {
+            doc.extraMentions.forEach(mention => {
+                if (mention.quote && mention.quote.trim() !== '') {
+                    totalQuotes++;
+                }
+            });
+        }
+    });
+    
+    const quotePercent = totalMentions > 0 ? Math.round((totalQuotes / totalMentions) * 100) : 0;
+    const quotePercentEl = document.getElementById('quotePercent');
+    if (quotePercentEl) {
+        quotePercentEl.textContent = quotePercent + '%';
     }
 }
 
