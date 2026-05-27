@@ -1296,7 +1296,37 @@
         </div>
     </div>
 </div>
-`;
+
+<!-- SPEAKER_FILTER_HTML -->
+
+<div class="speaker-filter-container" style="
+    background: #2a2a2a;
+    border-radius: 12px;
+    padding: 20px 30px;
+    margin-bottom: 20px;
+    border: 1px solid #444444;
+">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; cursor: pointer;" onclick="toggleSpeakerFilter()">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1rem; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 1px;">🎙️ Filter by Speaker</span>
+            <span id="speakerFilterActive" style="background: #2f855a; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; display: none;">Active</span>
+        </div>
+        <span id="speakerFilterToggle" style="color: #999; font-size: 1.2rem;">▼</span>
+    </div>
+    <div id="speakerFilterBody" style="display: none;">
+        <p style="color: #999; font-size: 0.85rem; margin-bottom: 15px;">Show only documentaries where a specific host or guest gave a quote.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px;" id="speakerButtons"></div>
+        <button onclick="clearSpeakerFilter()" style="
+            padding: 6px 14px;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 6px;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 0.85rem;
+        ">Show All</button>
+    </div>
+</div>
 
             <div class="results-container">
                 <div class="results-header">
@@ -1498,6 +1528,24 @@
                             <div class="reel-label">PICK 3</div>
                         </div>
                     </div>
+
+                    <div style="padding: 0 10px 20px;">
+    <div style="
+        background: rgba(0,0,0,0.3);
+        border: 1px solid #FFD700;
+        border-radius: 10px;
+        padding: 15px 20px;
+    ">
+        <p style="color: #FFD700; font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; letter-spacing: 1px;">
+            📺 FILTER BY YOUR STREAMING PLATFORMS
+        </p>
+        <p style="color: #999; font-size: 0.8rem; margin-bottom: 12px;">
+            Leave all unchecked to pick from all docs. 
+            <span id="randomPoolSize" style="color: #FFD700;"></span>
+        </p>
+        <div id="randomPlatformFilter" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+    </div>
+</div>
 
                     <div class="spin-section">
                         <button class="spin-button" id="spinButton" onclick="spinSlots()">
@@ -12214,34 +12262,35 @@ document.addEventListener('DOMContentLoaded', function() {
     renderDocumentaries(DOCUMENTARIES);
     updateStats();
     generateStatistics();
+    buildStreamingCheckboxes();
+    buildSpeakerButtons();
+    updateRandomPickerPool();
 });
 
 function showPage(pageName) {
-            // Hide all pages
-            document.querySelectorAll('.page-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Remove active class from all nav tabs
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected page
-            document.getElementById(pageName + '-page').classList.add('active');
-            
-            // Add active class to clicked nav tab
-            event.target.closest('.nav-tab').classList.add('active');
-
-            // Load page-specific content
+    document.querySelectorAll('.page-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+ 
+    document.getElementById(pageName + '-page').classList.add('active');
+    event.target.closest('.nav-tab').classList.add('active');
+ 
     if (pageName === 'directors') {
         generateDirectorsPage();
     } else if (pageName === 'categories') {
         generateCategoriesPage();
     } else if (pageName === 'random-pick') {
         initSlotMachine();
+        initRandomPlatformFilter();
+    } else if (pageName === 'documentaries') {
+        // Re-init streaming/speaker filters if needed
+        buildStreamingCheckboxes();
+        buildSpeakerButtons();
     }
-        }
+}
 
         function renderDocumentaries(documentaries) {
             const resultsGrid = document.getElementById('resultsGrid');
@@ -12277,74 +12326,20 @@ function showPage(pageName) {
         }
 
         function filterDocumentaries(filter) {
-             document.getElementById('searchInput').value = ''; 
-            let filtered = DOCUMENTARIES;
-            
-            switch(filter) {
-                case 'multiple-mentions':
-                    filtered = DOCUMENTARIES.filter(doc => doc.totalMentions > 1);
-                    break;
-                case 'ken-burns':
-                    filtered = DOCUMENTARIES.filter(doc => doc.director.toLowerCase().includes('ken burns'));
-                    break;
-                case 'crime':
-                    filtered = DOCUMENTARIES.filter(doc => doc.category.toLowerCase().includes('crime'));
-                    break;
-                case 'netflix':
-                    filtered = DOCUMENTARIES.filter(doc => doc.streaming === 'Netflix');
-                    break;
-                default:
-                    filtered = DOCUMENTARIES;
-            }
-            
-            currentDocumentaries = filtered;
-            currentFilter = filter;
-            renderDocumentaries(filtered);
-            
-            // Update filter button states
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.filter === filter) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            // Update results title
-            const titles = {
-                'all': 'All Documentaries',
-                'multiple-mentions': 'Multiple Mentions',
-                'ken-burns': 'Ken Burns Documentaries',
-                'crime': 'Crime Documentaries',
-                'netflix': 'Available on Netflix'
-            };
-            document.getElementById('resultsTitle').textContent = titles[filter] || 'Documentaries';
-        }
+    document.getElementById('searchInput').value = '';
+    currentFilter = filter;
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.filter === filter) btn.classList.add('active');
+    });
+
+    applyAllFilters();
+}
 
         function searchDocumentaries(query) {
-            if (!query.trim()) {
-                filterDocumentaries(currentFilter);
-                return;
-            }
-            
-            const searchTerm = query.toLowerCase();
-            const filtered = DOCUMENTARIES.filter(doc => 
-                doc.title.toLowerCase().includes(searchTerm) ||
-                doc.director.toLowerCase().includes(searchTerm) ||
-                doc.topic.toLowerCase().includes(searchTerm) ||
-                doc.category.toLowerCase().includes(searchTerm) ||
-                (doc.searchableText && doc.searchableText.toLowerCase().includes(searchTerm))
-            );
-            
-            // Update results title to show search results
-            document.getElementById('resultsTitle').textContent = `Search Results: "${query}" (${filtered.length} found)`;
-            
-            // Clear filter button active states
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            renderDocumentaries(filtered);
-        }
+    applyAllFilters();
+}
 
         // Event listeners
         document.getElementById('searchInput').addEventListener('input', (e) => {
@@ -12573,6 +12568,61 @@ function spinSlots() {
     }, 3200);
 }
 
+let randomPlatformFilter = new Set();
+ 
+// Call this once when random-pick page loads
+function initRandomPlatformFilter() {
+    const container = document.getElementById('randomPlatformFilter');
+    if (!container || container.innerHTML.trim() !== '') return;
+ 
+    const platforms = [...new Set(
+        DOCUMENTARIES.map(d => d.streaming).filter(s => s && s.trim() !== '')
+    )].sort();
+ 
+    container.innerHTML = platforms.map(platform => {
+        const count = DOCUMENTARIES.filter(d => d.streaming === platform).length;
+        return `
+            <label style="
+                display: flex; align-items: center; gap: 6px;
+                background: #333; border: 1px solid #FFD700;
+                border-radius: 16px; padding: 5px 12px;
+                cursor: pointer; color: #ccc; font-size: 0.8rem;
+                transition: all 0.2s; user-select: none;
+            " data-platform="${platform}">
+                <input type="checkbox" value="${platform}"
+                    onchange="toggleRandomPlatform(this)"
+                    style="display:none;">
+                ${platform} <span style="color:#777; font-size:0.7rem;">(${count})</span>
+            </label>
+        `;
+    }).join('');
+}
+ 
+function toggleRandomPlatform(checkbox) {
+    const label = checkbox.closest('label');
+    if (checkbox.checked) {
+        randomPlatformFilter.add(checkbox.value);
+        label.style.background = '#FFD700';
+        label.style.color = '#1a1a1a';
+    } else {
+        randomPlatformFilter.delete(checkbox.value);
+        label.style.background = '#333';
+        label.style.color = '#ccc';
+    }
+    updateRandomPickerPool();
+}
+ 
+function updateRandomPickerPool() {
+    const poolSize = getRandomPickerPool().length;
+    const el = document.getElementById('randomPoolSize');
+    if (el) el.textContent = `${poolSize} docs in pool`;
+}
+ 
+function getRandomPickerPool() {
+    if (randomPlatformFilter.size === 0) return DOCUMENTARIES;
+    return DOCUMENTARIES.filter(d => randomPlatformFilter.has(d.streaming));
+}
+
 function stopReel(stripId, index) {
     const strip = document.getElementById(stripId);
     const reel = strip.parentElement;
@@ -12590,8 +12640,16 @@ function stopReel(stripId, index) {
 }
 
 function getRandomDocs(count) {
-    const shuffled = [...DOCUMENTARIES].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, count);
+    const pool = getRandomPickerPool();
+    if (pool.length <= count) return [...pool];
+ 
+    // Fisher-Yates shuffle — proper randomness
+    const arr = [...pool];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr.slice(0, count);
 }
 
 function showResults() {
@@ -12626,6 +12684,282 @@ function showResults() {
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(initSlotMachine, 100);
 });
+
+let selectedPlatforms = new Set();
+let streamingFilterOpen = false;
+let speakerFilterOpen = false;
+let activeSpeaker = null;
+ 
+function buildStreamingCheckboxes() {
+    // Collect all unique platforms
+    const platforms = [...new Set(
+        DOCUMENTARIES
+            .map(d => d.streaming)
+            .filter(s => s && s.trim() !== '')
+    )].sort();
+ 
+    const container = document.getElementById('streamingCheckboxes');
+    if (!container) return;
+ 
+    container.innerHTML = platforms.map(platform => {
+        const count = DOCUMENTARIES.filter(d => d.streaming === platform).length;
+        return `
+            <label style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background: #333;
+                border: 1px solid #555;
+                border-radius: 20px;
+                padding: 6px 14px;
+                cursor: pointer;
+                color: #ccc;
+                font-size: 0.85rem;
+                transition: all 0.2s;
+                user-select: none;
+            " class="platform-label" data-platform="${platform}">
+                <input type="checkbox" 
+                    value="${platform}" 
+                    onchange="togglePlatform(this)"
+                    style="display: none;">
+                ${platform} <span style="color: #777; font-size: 0.75rem;">(${count})</span>
+            </label>
+        `;
+    }).join('');
+}
+ 
+function togglePlatform(checkbox) {
+    const label = checkbox.closest('label');
+    if (checkbox.checked) {
+        selectedPlatforms.add(checkbox.value);
+        label.style.background = '#ffffff';
+        label.style.color = '#1a1a1a';
+        label.style.borderColor = '#ffffff';
+    } else {
+        selectedPlatforms.delete(checkbox.value);
+        label.style.background = '#333';
+        label.style.color = '#ccc';
+        label.style.borderColor = '#555';
+    }
+    updateStreamingFilterCount();
+}
+ 
+function updateStreamingFilterCount() {
+    const countEl = document.getElementById('streamingFilterCount');
+    if (!countEl) return;
+    if (selectedPlatforms.size > 0) {
+        countEl.style.display = 'inline';
+        countEl.textContent = `${selectedPlatforms.size} selected`;
+    } else {
+        countEl.style.display = 'none';
+    }
+}
+ 
+function toggleStreamingFilter() {
+    streamingFilterOpen = !streamingFilterOpen;
+    const body = document.getElementById('streamingFilterBody');
+    const toggle = document.getElementById('streamingFilterToggle');
+    if (body) body.style.display = streamingFilterOpen ? 'block' : 'none';
+    if (toggle) toggle.textContent = streamingFilterOpen ? '▲' : '▼';
+}
+ 
+function applyStreamingFilter() {
+    applyAllFilters();
+}
+ 
+function clearStreamingFilter() {
+    selectedPlatforms.clear();
+    // Uncheck all checkboxes and reset labels
+    document.querySelectorAll('#streamingCheckboxes input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+        const label = cb.closest('label');
+        if (label) {
+            label.style.background = '#333';
+            label.style.color = '#ccc';
+            label.style.borderColor = '#555';
+        }
+    });
+    updateStreamingFilterCount();
+    applyAllFilters();
+}
+ 
+// ── Speaker Filter State ───────────────────────────────────
+function buildSpeakerButtons() {
+    const container = document.getElementById('speakerButtons');
+    if (!container) return;
+ 
+    // Collect all speakers from primary quotes and extraMentions
+    const speakerSet = new Set();
+    DOCUMENTARIES.forEach(doc => {
+        if (doc.speaker) {
+            // Split compound speakers like "Kmele Foster & Michael Moynihan"
+            doc.speaker.split(/[&,]/).forEach(s => {
+                const clean = s.trim();
+                if (clean) speakerSet.add(clean);
+            });
+        }
+        if (doc.extraMentions) {
+            doc.extraMentions.forEach(m => {
+                if (m.speaker) {
+                    m.speaker.split(/[&,]/).forEach(s => {
+                        const clean = s.trim();
+                        if (clean) speakerSet.add(clean);
+                    });
+                }
+            });
+        }
+    });
+ 
+    // Prioritize main hosts, then sort rest alphabetically
+    const hosts = ['Michael Moynihan', 'Matt Welch', 'Kmele Foster'];
+    const others = [...speakerSet]
+        .filter(s => !hosts.includes(s))
+        .sort();
+    const allSpeakers = [...hosts.filter(h => speakerSet.has(h)), ...others];
+ 
+    container.innerHTML = allSpeakers.map(speaker => {
+        const count = countDocsBySpeaker(speaker);
+        return `
+            <button 
+                onclick="setSpeakerFilter('${speaker.replace(/'/g, "\\'")}')"
+                data-speaker="${speaker}"
+                style="
+                    padding: 6px 14px;
+                    background: #333;
+                    border: 1px solid #555;
+                    border-radius: 20px;
+                    color: #ccc;
+                    cursor: pointer;
+                    font-size: 0.85rem;
+                    transition: all 0.2s;
+                "
+                class="speaker-btn"
+            >${speaker} <span style="color: #777; font-size: 0.75rem;">(${count})</span></button>
+        `;
+    }).join('');
+}
+ 
+function countDocsByspeaker(name) {
+    return DOCUMENTARIES.filter(doc => {
+        const inPrimary = doc.speaker && doc.speaker.includes(name);
+        const inExtra = doc.extraMentions && doc.extraMentions.some(m => m.speaker && m.speaker.includes(name));
+        return inPrimary || inExtra;
+    }).length;
+}
+ 
+function setSpeakerFilter(speaker) {
+    if (activeSpeaker === speaker) {
+        // Toggle off
+        activeSpeaker = null;
+        document.querySelectorAll('.speaker-btn').forEach(btn => {
+            btn.style.background = '#333';
+            btn.style.color = '#ccc';
+            btn.style.borderColor = '#555';
+        });
+        const badge = document.getElementById('speakerFilterActive');
+        if (badge) badge.style.display = 'none';
+    } else {
+        activeSpeaker = speaker;
+        document.querySelectorAll('.speaker-btn').forEach(btn => {
+            if (btn.dataset.speaker === speaker) {
+                btn.style.background = '#2f855a';
+                btn.style.color = '#fff';
+                btn.style.borderColor = '#38a169';
+            } else {
+                btn.style.background = '#333';
+                btn.style.color = '#ccc';
+                btn.style.borderColor = '#555';
+            }
+        });
+        const badge = document.getElementById('speakerFilterActive');
+        if (badge) badge.style.display = 'inline';
+    }
+    applyAllFilters();
+}
+ 
+function clearSpeakerFilter() {
+    activeSpeaker = null;
+    document.querySelectorAll('.speaker-btn').forEach(btn => {
+        btn.style.background = '#333';
+        btn.style.color = '#ccc';
+        btn.style.borderColor = '#555';
+    });
+    const badge = document.getElementById('speakerFilterActive');
+    if (badge) badge.style.display = 'none';
+    applyAllFilters();
+}
+ 
+function toggleSpeakerFilter() {
+    speakerFilterOpen = !speakerFilterOpen;
+    const body = document.getElementById('speakerFilterBody');
+    const toggle = document.getElementById('speakerFilterToggle');
+    if (body) body.style.display = speakerFilterOpen ? 'block' : 'none';
+    if (toggle) toggle.textContent = speakerFilterOpen ? '▲' : '▼';
+}
+ 
+// ── Combined Filter Application ────────────────────────────
+function applyAllFilters() {
+    let filtered = [...DOCUMENTARIES];
+ 
+    // 1. Apply keyword/category filter from currentFilter
+    if (currentFilter !== 'all') {
+        switch (currentFilter) {
+            case 'multiple-mentions':
+                filtered = filtered.filter(d => d.totalMentions > 1);
+                break;
+            case 'ken-burns':
+                filtered = filtered.filter(d => d.director.toLowerCase().includes('ken burns'));
+                break;
+            case 'crime':
+                filtered = filtered.filter(d => d.category.toLowerCase().includes('crime'));
+                break;
+            case 'netflix':
+                filtered = filtered.filter(d => d.streaming === 'Netflix');
+                break;
+        }
+    }
+ 
+    // 2. Apply streaming filter
+    if (selectedPlatforms.size > 0) {
+        filtered = filtered.filter(d => selectedPlatforms.has(d.streaming));
+    }
+ 
+    // 3. Apply speaker filter
+    if (activeSpeaker) {
+        filtered = filtered.filter(doc => {
+            const inPrimary = doc.speaker && doc.speaker.includes(activeSpeaker);
+            const inExtra = doc.extraMentions && doc.extraMentions.some(m => m.speaker && m.speaker.includes(activeSpeaker));
+            return inPrimary || inExtra;
+        });
+    }
+ 
+    // 4. Apply search text
+    const searchEl = document.getElementById('searchInput');
+    const query = searchEl ? searchEl.value.trim() : '';
+    if (query && currentSearchType === 'keywords') {
+        const searchTerm = query.toLowerCase();
+        filtered = filtered.filter(doc =>
+            doc.title.toLowerCase().includes(searchTerm) ||
+            doc.director.toLowerCase().includes(searchTerm) ||
+            doc.topic.toLowerCase().includes(searchTerm) ||
+            doc.category.toLowerCase().includes(searchTerm) ||
+            (doc.searchableText && doc.searchableText.toLowerCase().includes(searchTerm))
+        );
+    }
+ 
+    renderDocumentaries(filtered);
+ 
+    // Update results title
+    const parts = [];
+    if (currentFilter !== 'all') parts.push(currentFilter.replace('-', ' '));
+    if (selectedPlatforms.size > 0) parts.push([...selectedPlatforms].join(', '));
+    if (activeSpeaker) parts.push(`"${activeSpeaker}"`);
+    if (query) parts.push(`"${query}"`);
+ 
+    document.getElementById('resultsTitle').textContent = parts.length
+        ? `Filtered: ${parts.join(' + ')}`
+        : 'All Documentaries';
+}
 
 function debugChartData() {
     console.log("=== DEBUGGING CHART DATA ===");
