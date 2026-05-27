@@ -12749,7 +12749,6 @@ let selectedPlatforms = new Set();
 let activeSpeaker = 'all';
 let streamingFilterOpen = false;
 let speakerFilterOpen = false;
-let activeSpeaker = null;
  
 function buildStreamingCheckboxes() {
     // Collect all unique platforms
@@ -12938,120 +12937,6 @@ function clearStreamingFilter() {
     });
     updateStreamingFilterCount();
     applyAllFilters();
-}
- 
-// ── Speaker Filter State ───────────────────────────────────
-function buildSpeakerButtons() {
-    const container = document.getElementById('speakerButtons');
-    if (!container) return;
- 
-    // Collect all speakers from primary quotes and extraMentions
-    const speakerSet = new Set();
-    DOCUMENTARIES.forEach(doc => {
-        if (doc.speaker) {
-            // Split compound speakers like "Kmele Foster & Michael Moynihan"
-            doc.speaker.split(/[&,]/).forEach(s => {
-                const clean = s.trim();
-                if (clean) speakerSet.add(clean);
-            });
-        }
-        if (doc.extraMentions) {
-            doc.extraMentions.forEach(m => {
-                if (m.speaker) {
-                    m.speaker.split(/[&,]/).forEach(s => {
-                        const clean = s.trim();
-                        if (clean) speakerSet.add(clean);
-                    });
-                }
-            });
-        }
-    });
- 
-    // Prioritize main hosts, then sort rest alphabetically
-    const hosts = ['Michael Moynihan', 'Matt Welch', 'Kmele Foster'];
-    const others = [...speakerSet]
-        .filter(s => !hosts.includes(s))
-        .sort();
-    const allSpeakers = [...hosts.filter(h => speakerSet.has(h)), ...others];
- 
-    container.innerHTML = allSpeakers.map(speaker => {
-        const count = countDocsBySpeaker(speaker);
-        return `
-            <button 
-                onclick="setSpeakerFilter('${speaker.replace(/'/g, "\\'")}')"
-                data-speaker="${speaker}"
-                style="
-                    padding: 6px 14px;
-                    background: #333;
-                    border: 1px solid #555;
-                    border-radius: 20px;
-                    color: #ccc;
-                    cursor: pointer;
-                    font-size: 0.85rem;
-                    transition: all 0.2s;
-                "
-                class="speaker-btn"
-            >${speaker} <span style="color: #777; font-size: 0.75rem;">(${count})</span></button>
-        `;
-    }).join('');
-}
- 
-function countDocsByspeaker(name) {
-    return DOCUMENTARIES.filter(doc => {
-        const inPrimary = doc.speaker && doc.speaker.includes(name);
-        const inExtra = doc.extraMentions && doc.extraMentions.some(m => m.speaker && m.speaker.includes(name));
-        return inPrimary || inExtra;
-    }).length;
-}
- 
-function setSpeakerFilter(speaker) {
-    if (activeSpeaker === speaker) {
-        // Toggle off
-        activeSpeaker = null;
-        document.querySelectorAll('.speaker-btn').forEach(btn => {
-            btn.style.background = '#333';
-            btn.style.color = '#ccc';
-            btn.style.borderColor = '#555';
-        });
-        const badge = document.getElementById('speakerFilterActive');
-        if (badge) badge.style.display = 'none';
-    } else {
-        activeSpeaker = speaker;
-        document.querySelectorAll('.speaker-btn').forEach(btn => {
-            if (btn.dataset.speaker === speaker) {
-                btn.style.background = '#2f855a';
-                btn.style.color = '#fff';
-                btn.style.borderColor = '#38a169';
-            } else {
-                btn.style.background = '#333';
-                btn.style.color = '#ccc';
-                btn.style.borderColor = '#555';
-            }
-        });
-        const badge = document.getElementById('speakerFilterActive');
-        if (badge) badge.style.display = 'inline';
-    }
-    applyAllFilters();
-}
- 
-function clearSpeakerFilter() {
-    activeSpeaker = null;
-    document.querySelectorAll('.speaker-btn').forEach(btn => {
-        btn.style.background = '#333';
-        btn.style.color = '#ccc';
-        btn.style.borderColor = '#555';
-    });
-    const badge = document.getElementById('speakerFilterActive');
-    if (badge) badge.style.display = 'none';
-    applyAllFilters();
-}
- 
-function toggleSpeakerFilter() {
-    speakerFilterOpen = !speakerFilterOpen;
-    const body = document.getElementById('speakerFilterBody');
-    const toggle = document.getElementById('speakerFilterToggle');
-    if (body) body.style.display = speakerFilterOpen ? 'block' : 'none';
-    if (toggle) toggle.textContent = speakerFilterOpen ? '▲' : '▼';
 }
  
 // ── Combined Filter Application ────────────────────────────
