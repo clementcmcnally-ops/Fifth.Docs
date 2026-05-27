@@ -12814,6 +12814,24 @@ function updateStreamingFilterCount() {
         countEl.style.display = 'none';
     }
 }
+
+function toggleSpeakerFilter() {
+    speakerFilterOpen = !speakerFilterOpen;
+    const body = document.getElementById('speakerFilterBody');
+    const toggle = document.getElementById('speakerFilterToggle');
+    if (body) body.style.display = speakerFilterOpen ? 'block' : 'none';
+    if (toggle) toggle.textContent = speakerFilterOpen ? '▲' : '▼';
+}
+
+function clearSpeakerFilter() {
+    activeSpeaker = 'all';
+    document.querySelectorAll('.speaker-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.speaker === 'all');
+    });
+    const activeLabel = document.getElementById('speakerFilterActive');
+    if (activeLabel) activeLabel.style.display = 'none';
+    applyAllFilters();
+}
  
 function toggleStreamingFilter() {
     streamingFilterOpen = !streamingFilterOpen;
@@ -12904,17 +12922,21 @@ function buildSpeakerButtons() {
 
 function setSpeakerFilter(key) {
     activeSpeaker = key;
- 
+
+    // Show/hide the "Active" badge on the filter header
+    const activeLabel = document.getElementById('speakerFilterActive');
+    if (activeLabel) activeLabel.style.display = key === 'all' ? 'none' : 'inline';
+
     // Update button active states
     document.querySelectorAll('.speaker-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.speaker === key);
     });
- 
+
     // Also update the random picker pool if that function exists
     if (typeof updateRandomPickerPool === 'function') {
         updateRandomPickerPool();
     }
- 
+
     // Re-render
     applyAllFilters();
 }
