@@ -1183,6 +1183,66 @@
     .slot-title {
         font-size: 1.2rem;
     }
+    .speaker-filter-container {
+    background: #2a2a2a;
+    border-radius: 12px;
+    padding: 16px 24px;
+    margin-bottom: 20px;
+    border: 1px solid #444444;
+}
+ 
+.speaker-filter-label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+ 
+#speakerButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+ 
+.speaker-btn {
+    background: #333;
+    color: #ccc;
+    border: 1px solid #555;
+    border-radius: 20px;
+    padding: 7px 16px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+ 
+.speaker-btn:hover {
+    background: #444;
+    color: #fff;
+    border-color: #777;
+}
+ 
+.speaker-btn.active {
+    background: #ffffff;
+    color: #1a1a1a;
+    border-color: #ffffff;
+    font-weight: bold;
+}
+ 
+.speaker-count {
+    background: rgba(0,0,0,0.2);
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+}
+ 
+.speaker-btn.active .speaker-count {
+    background: rgba(0,0,0,0.15);
+}
 }
 </style>
 </head>
@@ -12686,6 +12746,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 let selectedPlatforms = new Set();
+let activeSpeaker = 'all';
 let streamingFilterOpen = false;
 let speakerFilterOpen = false;
 let activeSpeaker = null;
@@ -12761,6 +12822,102 @@ function toggleStreamingFilter() {
     const toggle = document.getElementById('streamingFilterToggle');
     if (body) body.style.display = streamingFilterOpen ? 'block' : 'none';
     if (toggle) toggle.textContent = streamingFilterOpen ? '▲' : '▼';
+}
+
+function matchesSpeaker(doc) {
+    if (activeSpeaker === 'all') return true;
+ 
+    const speaker = (doc.speaker || '').toLowerCase();
+ 
+    const isHost = {
+        moynihan: speaker.includes('michael moynihan'),
+        welch:    speaker.includes('matt welch'),
+        kmele:    speaker.includes('kmele foster'),
+    };
+ 
+    const anyHost = isHost.moynihan || isHost.welch || isHost.kmele;
+ 
+    switch (activeSpeaker) {
+        case 'moynihan': return isHost.moynihan;
+        case 'welch':    return isHost.welch;
+        case 'kmele':    return isHost.kmele;
+        case 'guests':   return !anyHost;  // only docs where NO host is the speaker
+        default:         return true;
+    }
+}
+
+function buildSpeakerButtons() {
+    const container = document.getElementById('speakerButtons');
+    if (!container) return;
+ 
+    // Count docs per speaker bucket
+    function countFor(key) {
+        return DOCUMENTARIES.filter(doc => {
+            const prev = activeSpeaker;
+            activeSpeaker = key;
+            const result = matchesSpeaker(doc);
+            activeSpeaker = prev;
+            return result;
+        }).length;
+    }
+ 
+    const hosts = [
+        { key: 'moynihan', label: 'Moynihan',  emoji: '🎙️' },
+        { key: 'welch',    label: 'Welch',     emoji: '🎙️' },
+        { key: 'kmele',    label: 'Kmele',     emoji: '🎙️' },
+        { key: 'guests',   label: 'Guests',    emoji: '🎤' },
+    ];
+ 
+    const allCount = DOCUMENTARIES.length;
+ 
+    let html = `
+        <button 
+            class="speaker-btn active" 
+            data-speaker="all" 
+            onclick="setSpeakerFilter('all')"
+            title="All ${allCount} documentaries"
+        >
+            All <span class="speaker-count">${allCount}</span>
+        </button>
+    `;
+ 
+    hosts.forEach(({ key, label, emoji }) => {
+        // Temporarily set filter to count
+        const prev = activeSpeaker;
+        activeSpeaker = key;
+        const count = DOCUMENTARIES.filter(doc => matchesSpeaker(doc)).length;
+        activeSpeaker = prev;
+ 
+        html += `
+            <button 
+                class="speaker-btn" 
+                data-speaker="${key}" 
+                onclick="setSpeakerFilter('${key}')"
+                title="${count} documentaries"
+            >
+                ${emoji} ${label} <span class="speaker-count">${count}</span>
+            </button>
+        `;
+    });
+ 
+    container.innerHTML = html;
+}
+
+function setSpeakerFilter(key) {
+    activeSpeaker = key;
+ 
+    // Update button active states
+    document.querySelectorAll('.speaker-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.speaker === key);
+    });
+ 
+    // Also update the random picker pool if that function exists
+    if (typeof updateRandomPickerPool === 'function') {
+        updateRandomPickerPool();
+    }
+ 
+    // Re-render
+    applyAllFilters();
 }
  
 function applyStreamingFilter() {
@@ -12924,14 +13081,10 @@ function applyAllFilters() {
         filtered = filtered.filter(d => selectedPlatforms.has(d.streaming));
     }
  
-    // 3. Apply speaker filter
-    if (activeSpeaker) {
-        filtered = filtered.filter(doc => {
-            const inPrimary = doc.speaker && doc.speaker.includes(activeSpeaker);
-            const inExtra = doc.extraMentions && doc.extraMentions.some(m => m.speaker && m.speaker.includes(activeSpeaker));
-            return inPrimary || inExtra;
-        });
-    }
+// 3. Apply speaker filter
+if (activeSpeaker && activeSpeaker !== 'all') {
+    filtered = filtered.filter(doc => matchesSpeaker(doc));
+}
  
     // 4. Apply search text
     const searchEl = document.getElementById('searchInput');
